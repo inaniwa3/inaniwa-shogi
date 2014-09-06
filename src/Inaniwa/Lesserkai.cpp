@@ -62,6 +62,7 @@ CRITICAL_SECTION cs; // クリティカルセクションオブジェクト
 
 // コマンド受信のための関数。思考中でも受信できるように、スレッドからこの関数を呼び出す。
 #ifdef _WIN32
+#pragma optimize("", off)
 void ReceiveThread(void *)
 #else
 void *ReceiveThread(void *)
@@ -103,6 +104,9 @@ void *ReceiveThread(void *)
 		LeaveCriticalSection(&cs); // クリティカルセクションを出る。
 	}
 }
+#ifdef _WIN32
+#pragma optimize("", on)
+#endif
 
 // 受信したコマンドを返す。
 string WaitCommand()
