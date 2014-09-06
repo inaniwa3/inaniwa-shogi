@@ -1,4 +1,4 @@
-#include "Kyokumen.h"
+﻿#include "Kyokumen.h"
 
 void Te::FPrint(FILE *fp)
 {

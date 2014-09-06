@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <stdio.h>
 #include <time.h>
@@ -6,13 +6,13 @@
 typedef unsigned char KomaInf;
 
 enum {
-	// �����Ȃ��Ƃ���
+	// 何もないところ
 	EMPTY=0,
-	EMP=0,				// �R�������������Ă����ƃ\�[�X�����₷���̂Łi�΁j
-	// �����ɂ���ڈ�i�P�r�b�g�j
+	EMP=0,				// ３文字も準備しておくとソースが見やすいので（笑）
+	// 成り駒につける目印（１ビット）
 	PROMOTED=1<<3,
 
-	// �������킷���l
+	// 駒をあらわす数値
 	FU=1,
 	KY=2,
 	KE=3,
@@ -28,43 +28,43 @@ enum {
 	UM=KA+PROMOTED,
 	RY=HI+PROMOTED,
 	
-	// �������g�̋�ɂ���ڈ�i�P�r�b�g�j
+	// 自分自身の駒につける目印（１ビット）
 	SELF=1<<4,
-	// �G�̋�ɂ���ڈ�(�P�r�b�g)
+	// 敵の駒につける目印(１ビット)
 	ENEMY=1<<5,
-	// �G���������i�߂Ȃ��Ƃ���i�Ղ̊O�j�̖ڈ�
+	// 敵も味方も進めないところ（盤の外）の目印
 	WALL=SELF+ENEMY,
 
-	// ���ۂ̋�
-	SFU=SELF+FU,		//�����̕�
-	STO=SELF+TO,		//�����̂Ƌ�
-	SKY=SELF+KY,		//�����̍���
-	SNY=SELF+NY,		//�����̐��荁
-	SKE=SELF+3,			//�����̌j�n
-	SNK=SKE+PROMOTED,	//�����̐���j
-	SGI=SELF+4,			//�����̋�
-	SNG=SGI+PROMOTED,	//�����̐����
-	SKI=SELF+5,			//�����̋�
-	SKA=SELF+6,			//�����̊p
-	SUM=SKA+PROMOTED,	//�����̔n
-	SHI=SELF+7,			//�����̔��
-	SRY=SHI+PROMOTED,	//�����̗�
-	SOU=SELF+8,			//�����̋�
+	// 実際の駒
+	SFU=SELF+FU,		//味方の歩
+	STO=SELF+TO,		//味方のと金
+	SKY=SELF+KY,		//味方の香車
+	SNY=SELF+NY,		//味方の成り香
+	SKE=SELF+3,			//味方の桂馬
+	SNK=SKE+PROMOTED,	//味方の成り桂
+	SGI=SELF+4,			//味方の銀
+	SNG=SGI+PROMOTED,	//味方の成り銀
+	SKI=SELF+5,			//味方の金
+	SKA=SELF+6,			//味方の角
+	SUM=SKA+PROMOTED,	//味方の馬
+	SHI=SELF+7,			//味方の飛車
+	SRY=SHI+PROMOTED,	//味方の龍
+	SOU=SELF+8,			//味方の玉
 
-	EFU=ENEMY+1,		//�G�̕�
-	ETO=EFU+PROMOTED,	//�G�̂Ƌ�
-	EKY=ENEMY+2,		//�G�̍���
-	ENY=EKY+PROMOTED,	//�G�̐��荁
-	EKE=ENEMY+3,		//�G�̌j�n
-	ENK=EKE+PROMOTED,	//�G�̐���j
-	EGI=ENEMY+4,		//�G�̋�
-	ENG=EGI+PROMOTED,	//�G�̐����
-	EKI=ENEMY+5,		//�G�̋�
-	EKA=ENEMY+6,		//�G�̊p
-	EUM=EKA+PROMOTED,	//�G�̔n
-	EHI=ENEMY+7,		//�G�̔��
-	ERY=EHI+PROMOTED,	//�G�̗�
-	EOU=ENEMY+8,		//�G�̋�
+	EFU=ENEMY+1,		//敵の歩
+	ETO=EFU+PROMOTED,	//敵のと金
+	EKY=ENEMY+2,		//敵の香車
+	ENY=EKY+PROMOTED,	//敵の成り香
+	EKE=ENEMY+3,		//敵の桂馬
+	ENK=EKE+PROMOTED,	//敵の成り桂
+	EGI=ENEMY+4,		//敵の銀
+	ENG=EGI+PROMOTED,	//敵の成り銀
+	EKI=ENEMY+5,		//敵の金
+	EKA=ENEMY+6,		//敵の角
+	EUM=EKA+PROMOTED,	//敵の馬
+	EHI=ENEMY+7,		//敵の飛車
+	ERY=EHI+PROMOTED,	//敵の龍
+	EOU=ENEMY+8,		//敵の玉
 };
 
 extern int Direct[12];
@@ -80,46 +80,46 @@ extern const char *komaStr2[];
 extern const char *danSFENNameArray[];
 extern const char *mochiGomaSFENNameArray[];
 
-// �R�͂Œǉ��B��̉��l�Ǝ�����̉��l
+// ３章で追加。駒の価値と持ち駒の価値
 extern int KomaValue[];
 extern int HandValue[];
 
-// �����́A�W�����̗����{�j�n�̂S�����̗����{��ы�̂W�����̗����������܂��B
-// �e�����ɂP�r�b�g�����蓖�ĂāA���v�Q�O�r�b�g���K�v�ł��B
-// �����ł́Aint���R�Q�r�b�g�Ɖ��肵�Ă��܂��B
-// �������A���Z�̍������̂��߂ɁA��ы�̗����͏�ʂP�U�r�b�g�̂����̂W�r�b�g�𗘗p���܂��B
+// 利きは、８方向の利き＋桂馬の４方向の利き＋飛び駒の８方向の利きを扱います。
+// 各利きに１ビットを割り当てて、合計２０ビットが必要です。
+// ここでは、intが３２ビットと仮定しています。
+// ただし、演算の高速性のために、飛び駒の利きは上位１６ビットのうちの８ビットを利用します。
 typedef unsigned int Kiki;
 
-// 5�͂Œǉ��B�U�S�r�b�g�^�̐����^
+// 5章で追加。６４ビット型の整数型
 typedef long long int64;
 typedef unsigned long long uint64;
 
 class Kyokumen;
 
-// ��̃N���X
+// 手のクラス
 class Te {
 public:
-	// �ǂ�����E�ǂ��ւ͂��ꂼ��PByte�ł���킹�܂��B
-	// �ڂ����͋ǖʃN���X���Q�Ƃ��ĉ������B
+	// どこから・どこへはそれぞれ１Byteであらわせます。
+	// 詳しくは局面クラスを参照して下さい。
 	unsigned char from,to;
-	// ����������
+	// 動かした駒
 	KomaInf koma;
-	// �������
+	// 取った駒
 	KomaInf capture;
-	// ��/�s����
+	// 成/不成り
 	unsigned char promote;
-	// ����́A��̐����̍ۂɎ�ʂ�p���������Ɏg���܂��i�����̊g���p�j
+	// これは、手の生成の際に種別を用いたい時に使います（将来の拡張用）
 	unsigned char Kind;
-	// ���̎�̉��]���i��̉��l�j�ł�
+	// その手の仮評価（手の価値）です
 	short value;
 public:
 	inline bool IsNull() {
 		return from==0 && to==0;
 	}
-	// Te�̔z���錾���邱�Ƃ������̂ŁA��̃R���X�g���N�^��p�ӂ��܂��B
-	// �������邱�ƂŁATe�̔z���錾���邽�тɖ��ʂȏ��������������邱�Ƃ�������܂��B
+	// Teの配列を宣言することが多いので、空のコンストラクタを用意します。
+	// こうすることで、Teの配列を宣言するたびに無駄な初期化処理が走ることを避けられます。
 	inline Te() {};
-	// �{����Te����̃f�[�^�ŏ��������������̂��߂̃R���X�g���N�^�ł��B
+	// 本当にTeを空のデータで初期化したい時のためのコンストラクタです。
 	inline Te(int i) {
 		from=to=koma=capture=promote=Kind=0;
 		value=0;
@@ -134,62 +134,62 @@ public:
 		value=v;
 	}
 	Te (int SorE,unsigned char f,unsigned char t,const Kyokumen &k);
-	// ���\�����������Ɏg���܂��B
+	// 手を表示したい時に使います。
 	void Print() {
 		FPrint(stdout);
 	}
-	// ����
+	// 同上
 	void FPrint(FILE *fp);
 
 	//void PrintToBuf(char *buf);
 
-	// ��̓��ꐫ���r�������Ƃ��Ɏg���܂��BKind��Value������Ă�������ł��B
+	// 手の同一性を比較したいときに使います。KindやValueが違っても同じ手です。
 	int operator==(const Te &a) {
 		return a.from==from && a.to==to && a.koma==koma && a.promote==promote;
 	}
 };
 
-// �ǖʂ̃N���X
+// 局面のクラス
 class Kyokumen {
 public:
-	// �j�n�̗�����ban����͂ݏo���̂ŁA�͂ݏo�������m�ۂ��Ă����܂��B
-	// C++�ł́A�\���̂̓����̕ϐ��̕��я��͐錾�������ɂȂ邱�Ƃ𗘗p���Ă��܂��B
-	// ���ʂ͂��܂�g��Ȃ��u�����v�e�N�j�b�N�ł����ǁA���������e�N�j�b�N������Ƃ������ƂŁB
+	// 桂馬の利きがbanからはみ出すので、はみ出す分を確保しておきます。
+	// C++では、構造体の内部の変数の並び順は宣言した順になることを利用しています。
+	// 普通はあまり使わない「汚い」テクニックですけど、こういうテクニックもあるということで。
 	KomaInf banpadding[16];
-	// 2�����z����g���ƒx���̂ŁA�P�����z����g���܂��B�܂��A�|���Z�̍ۂɁA���X�Ƃ���p��������A
-	// 2�̊K����|���Z�Ɏg���Ɗ|���Z�������Ȃ�̂ŁA���P�U���g���܂��B
-	// ��̈ʒu�́A�Ⴆ�΂V���Ȃ�A�V���P�U�{���̂悤�ɂ���킵�܂��B
-	// �܂�A�V���Ȃ�P�U�i����0x77�ɂȂ�킯�ł��B
+	// 2次元配列を使うと遅いので、１次元配列を使います。また、掛け算の際に、＊９とかを用いるよりも、
+	// 2の階乗を掛け算に使うと掛け算が早くなるので、＊１６を使います。
+	// 駒の位置は、例えば７七なら、７＊１６＋七のようにあらわします。
+	// つまり、７七なら１６進数で0x77になるわけです。
 	KomaInf ban[16*11];
 
-	// ��̗�����ێ����܂��B�G�̋�Ǝ����̋�̗����͕ʁX�ɕێ����܂��B
+	// 駒の利きを保持します。敵の駒と自分の駒の利きは別々に保持します。
 	Kiki controlS[16*11];
 	Kiki controlE[16*11];
 
-	// ������ł��B����������ɂȂ邱�Ƃ͂Ȃ��̂ŁAEHI�܂łŏ\���ł��B
-	// Hand[FU]���P�Ȃ���̎�����ɕ����P���AHand[EKI]���R�Ȃ�G�̎�����ɋ����R���Ƃ����v�̂ł��B
+	// 持ち駒です。王が持ち駒になることはないので、EHIまでで十分です。
+	// Hand[FU]が１なら先手の持ち駒に歩が１枚、Hand[EKI]が３なら敵の持ち駒に金が３枚という要領です。
 	int Hand[EHI+1];
 
-	// ���̋ǖʂ̎萔�ł��B
+	// この局面の手数です。
 	int Tesu;
 
-	// �݂��̋ʂ̈ʒu�ł��B
+	// 互いの玉の位置です。
 	int kingS;
 	int kingE;
 
-	// �R�͂Œǉ��B�ǖʂ̕]���l
+	// ３章で追加。局面の評価値
 	int value;
 protected:
-	// �P�͂Œǉ��BcontrolS,controlE�̏������B
+	// １章で追加。controlS,controlEの初期化。
 	void InitControl();
 public:
-	void InitKyokumen(int tesu, KomaInf board[9][9], int Motigoma[]); // �ǖʂ�����������B
+	void InitKyokumen(int tesu, KomaInf board[9][9], int Motigoma[]); // 局面を初期化する。
 protected:	
-	// �P�͂Œǉ��B��������𓮂������߂̊֐��Q
+	// １章で追加。正しく駒を動かすための関数群
 	int Utifudume(int SorE,int to,int *pin);
-	void MoveKing(int SorE,int &teNum,Te *teTop,Kiki kiki);			//�ʂ̓�����̐���
-	void MoveTo(int SorE,int &teNum,Te *teTop,int to,int *pin);		//to�ɓ�����̐���
-	void PutTo(int SorE,int &teNum,Te *teTop,int to,int *pin);		//to�ɋ��ł�̐���
+	void MoveKing(int SorE,int &teNum,Te *teTop,Kiki kiki);			//玉の動く手の生成
+	void MoveTo(int SorE,int &teNum,Te *teTop,int to,int *pin);		//toに動く手の生成
+	void PutTo(int SorE,int &teNum,Te *teTop,int to,int *pin);		//toに駒を打つ手の生成
 public: //ina//
 	Kiki CountControlS(int pos);
 	Kiki CountControlE(int pos);
@@ -199,13 +199,13 @@ protected: //ina//
 	void AddStraight(int SorE,int &teNum,Te *teTop,int from,int dir,int pin,int Rpin=0);
 	void AddMove(int SorE,int &teNum,Te *teTop,int from,int diff,int pin,int Rpin=0);
 
-	// �R�͂Œǉ��B�����l�����߂邽�߂̊֐��Q
+	// ３章で追加。交換値を求めるための関数群
 	int IsCorrectMove(Te &te);
 	int EvalMin(Te *MoveS,int NumMoveS,Te *MoveE,int NumMoveE);
 	int EvalMax(Te *MoveS,int NumMoveS,Te *MoveE,int NumMoveE);
 	int Eval(int pos);
 
-	// 5�͂Œǉ��B�n�b�V���̎�
+	// 5章で追加。ハッシュの種
 	static uint64 HashSeed[ERY+1][0x99+1];
 	static uint64 HandHashSeed[EHI+1][18+1];
  
@@ -216,13 +216,13 @@ public:
 	uint64 HandHashVal;
 	uint64 HashVal;
 
-	// 1000�肭�炢�����w���Ȃ����Ƃɂ��Ēu���܂��傤�B
+	// 1000手くらいしか指さないことにして置きましょう。
 //ina// 	static uint64 HashHistory[1000];
 //ina// 	static int OuteHistory[1000];
 	static uint64 HashHistory[INANIWA_MAX_TESU]; //ina//
 	static int OuteHistory[INANIWA_MAX_TESU];    //ina//
 
-	// �P�͂Œǉ��Bpos����dir�����ɂ��鉽����i�������͕ǁj��T���B
+	// １章で追加。posからdir方向にある何か駒（もしくは壁）を探す。
 	inline int search(int pos,int dir) const {
 		do {
 			pos+=dir;
@@ -230,23 +230,23 @@ public:
 		return pos;
 	}
 	Kyokumen() {};
-	// �Q�͂Œǉ��B�ՖʂƎ������ǖʂ𐶐�����R���X�g���N�^
+	// ２章で追加。盤面と持ち駒から局面を生成するコンストラクタ
 	Kyokumen(int tesu,KomaInf ban[9][9],int Motigoma[]);
-	// �Q�͂Œǉ��B��ʂ֋ǖʂ��󎚂���B
+	// ２章で追加。画面へ局面を印字する。
 	void Print() {
 		FPrint(stdout);
 	}
-	// �Q�͂Œǉ��B�t�@�C���ɋǖʂ��󎚂���B
+	// ２章で追加。ファイルに局面を印字する。
 	void FPrint(FILE *fp);
-	// �P�͂Œǉ��B��̐����������̐��������邽�߂̊֐��Q
+	// １章で追加。駒の正しい動きの生成をするための関数群
 	void MakePinInf(int *pin) const;
 	int MakeLegalMoves(int SorE,Te *tebuf,int *pin=NULL);
 	int AntiCheck(int SorE,Te *tebuf,int *pin,Kiki control);
 
-	// 2�͂Œǉ��B���ۂɂP�蓮�����B
+	// 2章で追加。実際に１手動かす。
 	void Move(int SorE,const Te &te);
 
-	// �R�͂Œǉ��B��ԑ��̈�ԗǂ������l��T���ĕԂ��B
+	// ３章で追加。手番側の一番良い交換値を探して返す。
 	int BestEval(int SorE);
 
 	int IsLegalMove(int SorE,Te &te);
@@ -264,41 +264,41 @@ public:
 		return ret;
 	}
 	void Dump();
-	// ��X�͂Œǉ��B����𐶐��B
+	// 第９章で追加。王手を生成。
 	int MakeChecks(int SorE,Te *tebuf,int *pin=NULL);
-	// ��X�͂Œǉ��B�l�ߏ������[�`���B
+	// 第９章で追加。詰め将棋ルーチン。
 	int Mate(int SorE,int maxDepth,Te &te);
 	int CheckMate(int SorE,int depth, int depthMax, Te *checks,Te &te);
 	int AntiCheckMate(int SorE,int depth, int depthMax, Te *checks);
 
-	// �ȉ��ALesserkai�œƎ��ɒǉ��B
-	Te GetTsumeTe(int SorE); // �l���������������A�U�ߕ��̎���擾����B
-	bool IsNyugyokuWin(int SorE); // ���ʂŏ��������iCSA���[���Ɋ�Â��Ĕ��肷��B�j
+	// 以下、Lesserkaiで独自に追加。
+	Te GetTsumeTe(int SorE); // 詰将棋を解いた時、攻め方の手を取得する。
+	bool IsNyugyokuWin(int SorE); // 入玉で勝ったか（CSAルールに基づいて判定する。）
 };
 
-// 7�͂Œǉ��B��g�݂̃{�[�i�X�_��^����B
+// 7章で追加。駒組みのボーナス点を与える。
 class KyokumenKomagumi: public Kyokumen {
 public:
 	static int KomagumiValue[ERY+1][16*11];
-	// �U�ߋ�A����̑���ʁE���ʂƂ̑��Έʒu�ɂ��]���_
+	// 攻め駒、守り駒の相手玉・自玉との相対位置による評価点
 	static int SemegomaValueS[16*11][16*11];
 	static int SemegomaValueE[16*11][16*11];
 	static int MamorigomaValueS[16*11][16*11];
 	static int MamorigomaValueE[16*11][16*11];
 public:
-	// �I�Փx�F���Ղ���I�ՂɌ������ďオ���Ă������l�B�傫���قǋl�݂��߂��i�͂��j
+	// 終盤度：序盤から終盤に向かって上がっていく数値。大きいほど詰みが近い（はず）
 	int Shuubando[2];
-	// ��g�݂ɂ��{�[�i�X�_
+	// 駒組みによるボーナス点
 	int KomagumiBonus[2];
-	// �U�ߋ�A����ɂ��{�[�i�X�_
+	// 攻め駒、守り駒によるボーナス点
 	int SemegomaBonus[2];
 	int MamorigomaBonus[2];
 	KyokumenKomagumi(int tesu,KomaInf ban[9][9],int Motigoma[]) : Kyokumen(tesu,ban,Motigoma) {
 		InitShuubando();
 		InitBonus();
 	}
-	KyokumenKomagumi() {} // �R���p�C���G���[������邽�߁B
-	void InitKyokumen(int tesu,KomaInf ban[9][9],int Motigoma[]) // ��ԍŏ��ɋǖʂ�����������Ƃ��ɌĂԁB
+	KyokumenKomagumi() {} // コンパイルエラーを避けるため。
+	void InitKyokumen(int tesu,KomaInf ban[9][9],int Motigoma[]) // 一番最初に局面を初期化するときに呼ぶ。
 	{
 		Kyokumen::InitKyokumen(tesu, ban, Motigoma);
 		InitShuubando();
@@ -312,24 +312,24 @@ public:
 	void SenkeiInit();
 	void Move(int SorE,const Te &te);
 	void narabe(int tesu,const char *t[]);
-	// ���܂ł�value�̑���B
+	// 今までのvalueの代わり。
 	int Evaluate();
-	// 8�͂Œǉ��B��̕]���ƕ��ёւ�������B
+	// 8章で追加。手の評価と並び替えをする。
 	void EvaluateTe(int SorE,int teNum,Te *te);
 };
 
 class Joseki {
-	unsigned char **JosekiData;	// ��Ղ̊����f�[�^
-	int JosekiSize;		// ���̒�Ղ̃T�C�Y�i�������������邩�j
-	Joseki *child;		// ��Ճt�@�C���𕡐��I�������ꍇ�A�q�N���X���ʂ̒�Ճt�@�C���������Ă���B
+	unsigned char **JosekiData;	// 定跡の棋譜データ
+	int JosekiSize;		// この定跡のサイズ（棋譜が何枚あるか）
+	Joseki *child;		// 定跡ファイルを複数選択した場合、子クラスが別の定跡ファイルを持っている。
 public:
-	// �������Bfilenames�ɂ́A,��؂�ŕ����̃t�@�C������^���邱�Ƃ��o����B
+	// 初期化。filenamesには、,区切りで複数のファイル名を与えることが出来る。
 	Joseki(char *filenames);
-	// shoki�́A�����ǖʁB�i����̏ꍇ�ȂǂɑΉ����邽�߁B�j
-	// ���݂̋ǖ�k����Ճf�[�^���ɂ������ꍇ�A���̋ǖʂłǂ�Ȏ肪�ǂꂭ�炢�̕p�x�Ŏw���ꂽ����Ԃ��B
-	// �������A�������g�̒�Փ��Ō������ꍇ�́Achild�܂Œ�Ղ��Q�Ƃ͂��Ȃ��B
-	// ����ɂ��A�D�悵�Ďw����������Ղ��t�@�C���̐擪�ɒu���A�����I�Ȓ�Ղ��Ō�ɒu�����ƂŁA
-	// ����w������D�悵�A���̒�Ղ���O�ꂽ�ꍇ�ɑ傫�Ȓ�ՂŃJ�o�[���邱�Ƃ��s����B
+	// shokiは、初期局面。（駒落ちの場合などに対応するため。）
+	// 現在の局面kが定跡データ内にあった場合、その局面でどんな手がどれくらいの頻度で指されたかを返す。
+	// ただし、自分自身の定跡内で見つけた場合は、childまで定跡を参照はしない。
+	// これにより、優先して指させたい定跡をファイルの先頭に置き、統括的な定跡を最後に置くことで、
+	// ある指し方を優先しつつ、その定跡から外れた場合に大きな定跡でカバーすることが行える。
 	void fromJoseki(Kyokumen &shoki,int shokiTeban,Kyokumen &k,int tesu,int &teNum,Te te[],int hindo[]); 
 };
 

@@ -1,8 +1,8 @@
-#pragma once
+﻿#pragma once
 
 #include "Kyokumen.h"
 
-// USI�R�}���h�����ɋǖʂ̍쐬�Ȃǂ��s���N���X
+// USIコマンドを元に局面の作成などを行うクラス
 
 class USIUtil
 {

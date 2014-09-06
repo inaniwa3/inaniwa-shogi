@@ -1,36 +1,36 @@
-#include <string.h>
+ï»¿#include <string.h>
 #include <string>
 
 #include "USIUtil.h"
 
 using namespace std;
 
-extern unsigned long remainTime; // c‚èŠÔ
-extern unsigned long byoyomiTime; // •b“Ç‚İ‚ÌŠÔ
-extern unsigned long tsumeLimitTime; // ‹l«Šû‰ğ“š‚Ì§ŒÀŠÔ
-extern bool isInfinite; // ‹l«Šû‰ğ“š‚ÌvlŠÔ‚ª–³§ŒÀ‚©‚Ç‚¤‚©
+extern unsigned long remainTime; // æ®‹ã‚Šæ™‚é–“
+extern unsigned long byoyomiTime; // ç§’èª­ã¿ã®æ™‚é–“
+extern unsigned long tsumeLimitTime; // è©°å°†æ£‹è§£ç­”ã®åˆ¶é™æ™‚é–“
+extern bool isInfinite; // è©°å°†æ£‹è§£ç­”ã®æ€è€ƒæ™‚é–“ãŒç„¡åˆ¶é™ã‹ã©ã†ã‹
 extern Te InaniwaLastTe; //ina//
 
-static char komaSFENNameArray[] = { ' ', 'P', 'L', 'N', 'S', 'G', 'B', 'R', 'K' }; // SFENŒ`®‚Åg‚¤‚¿‹î‚Ì•¶š—ñiæè‘¤A‚¿‹îj
-static char komaSFENNameArray2[] = { ' ', 'p', 'l', 'n', 's', 'g', 'b', 'r', 'k' }; // SFENŒ`®‚Åg‚¤‚¿‹î‚Ì•¶š—ñiŒãè‘¤j
+static char komaSFENNameArray[] = { ' ', 'P', 'L', 'N', 'S', 'G', 'B', 'R', 'K' }; // SFENå½¢å¼ã§ä½¿ã†æŒã¡é§’ã®æ–‡å­—åˆ—ï¼ˆå…ˆæ‰‹å´ã€æŒã¡é§’ï¼‰
+static char komaSFENNameArray2[] = { ' ', 'p', 'l', 'n', 's', 'g', 'b', 'r', 'k' }; // SFENå½¢å¼ã§ä½¿ã†æŒã¡é§’ã®æ–‡å­—åˆ—ï¼ˆå¾Œæ‰‹å´ï¼‰
 
-// ”ñ‡–@‚Èè‚©‚Ç‚¤‚©”»’è‚·‚éŠÖ”‚Å‚·B
+// éåˆæ³•ãªæ‰‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹é–¢æ•°ã§ã™ã€‚
 bool IsIllegal(Te te,int teNum,Te *teBuf)
 {
-	// —v‚·‚é‚ÉAè‚Ìˆê——‚Ì’†‚É‚ ‚Á‚½‚çA
+	// è¦ã™ã‚‹ã«ã€æ‰‹ã®ä¸€è¦§ã®ä¸­ã«ã‚ã£ãŸã‚‰ã€
 	for(int i=0;i<teNum;i++) {
 		if (te==teBuf[i]) {
-			// Illegal‚Å‚Í‚È‚¢A‚Æ‚¢‚¤‚±‚Æ‚Åfalse‚ğ•Ô‚µ‚Ü‚·B
+			// Illegalã§ã¯ãªã„ã€ã¨ã„ã†ã“ã¨ã§falseã‚’è¿”ã—ã¾ã™ã€‚
 			return false;
 		}
 	}
-	// è‚Ìˆê——‚Ì’†‚É‚È‚¢è‚ÍAˆá–@‚Èèw‚µ‚Ä‚Í‚¢‚¯‚È‚¢è‚Å‚·B
+	// æ‰‹ã®ä¸€è¦§ã®ä¸­ã«ãªã„æ‰‹ã¯ã€é•æ³•ãªæ‰‹ï¼æŒ‡ã—ã¦ã¯ã„ã‘ãªã„æ‰‹ã§ã™ã€‚
 	return true;
 }
 
 KomaInf USIUtil::MochigomaSFENKomaNameToValue(char komaName, int SorE)
 {
-	for (int i = 1; i <= 7; i++) // ‹Ê‚Í‚¿‹î‚É‚È‚ç‚È‚¢‚Ì‚Å7‚Ü‚Å‚Å\•ª
+	for (int i = 1; i <= 7; i++) // ç‰ã¯æŒã¡é§’ã«ãªã‚‰ãªã„ã®ã§7ã¾ã§ã§ååˆ†
 	{
 		if (komaName == komaSFENNameArray[i])
 		{
@@ -42,7 +42,7 @@ KomaInf USIUtil::MochigomaSFENKomaNameToValue(char komaName, int SorE)
 
 KomaInf USIUtil::SFENKomaNameToValue(char komaName)
 {
-	for (int i = 1; i <= 8; i++) // ‹Ê‚àŠÜ‚ß‚Ä8‚Ü‚Å
+	for (int i = 1; i <= 8; i++) // ç‰ã‚‚å«ã‚ã¦8ã¾ã§
 	{
 		if (komaName == komaSFENNameArray[i])
 		{
@@ -65,11 +65,11 @@ void USIUtil::ClearMochigoma(int motigoma[])
 
 void USIUtil::MakeCustomKyokumen(const char *buf, KomaInf customBan[9][9], int motigoma[])
 {
-	int pos = strlen("position sfen "); // ÅŒã‚ÌƒXƒy[ƒX‚É’ˆÓ
+	int pos = strlen("position sfen "); // æœ€å¾Œã®ã‚¹ãƒšãƒ¼ã‚¹ã«æ³¨æ„
 	const char* ptr = buf + pos;
 	int num;
 	for (int dan = 1; dan <= 9; dan++) {
-		int suji = 1; // ‚±‚Ìu‹Øv‚Æ‚¢‚¤‚Ì‚ÍA•’Ê‚Æ‚Í”½“]‚µ‚½‚à‚Ì‚É‚È‚éB
+		int suji = 1; // ã“ã®ã€Œç­‹ã€ã¨ã„ã†ã®ã¯ã€æ™®é€šã¨ã¯åè»¢ã—ãŸã‚‚ã®ã«ãªã‚‹ã€‚
 		while (suji <= 9) {
 			if (*ptr == '/') {
 				++ptr;
@@ -100,7 +100,7 @@ void USIUtil::MakeCustomKyokumen(const char *buf, KomaInf customBan[9][9], int m
 		num = 1;
 		if (*ptr >= '1' && *ptr <= '9') {
 			if (*(ptr + 1) >= '1' && *(ptr + 1) <= '9') {
-				sscanf(ptr, "%2d", &num); // ‚QŒ…‚Ì”š‚È‚ç
+				sscanf(ptr, "%2d", &num); // ï¼’æ¡ã®æ•°å­—ãªã‚‰
 				ptr += 2;
 			} else {
 				sscanf(ptr, "%1d", &num);
@@ -120,7 +120,7 @@ int USIUtil::AddMove(const char *buf, Kyokumen *k, int SorE, int teNum, Te *teBu
 	unsigned char promote = 0;
 	int pos = 0;
 	if (buf[1] == '*') {
-		// ‚¿‹î‚ğ‘Å‚Âè‚Ìê‡
+		// æŒã¡é§’ã‚’æ‰“ã¤æ‰‹ã®å ´åˆ
 		from = 0;
 		char komaName[2];
 		char dummy[2];
@@ -150,10 +150,10 @@ int USIUtil::AddMove(const char *buf, Kyokumen *k, int SorE, int teNum, Te *teBu
 		pos += promote ? 6 : 5;
 	}
 	Te te=Te(from,to,koma,capture,promote);
-	// “ü—Í‚³‚ê‚½è‚ªA‚¨‚©‚µ‚©‚Á‚½‚çA
+	// å…¥åŠ›ã•ã‚ŒãŸæ‰‹ãŒã€ãŠã‹ã—ã‹ã£ãŸã‚‰ã€
 	if (IsIllegal(te,teNum,teBuf)) {
-		// ‚à‚¤ˆê‰ñ”Õ–Ê‚ğ•\¦‚µ‚Ä“ü—Í‚µ‚È‚¨‚µ‚Å‚·B
-		//printf("“ü—Í‚³‚ê‚½è‚ªˆÙí‚Å‚·B“ü—Í‚µ‚È‚¨‚µ‚Ä‚­‚¾‚³‚¢B\n");
+		// ã‚‚ã†ä¸€å›ç›¤é¢ã‚’è¡¨ç¤ºã—ã¦å…¥åŠ›ã—ãªãŠã—ã§ã™ã€‚
+		//printf("å…¥åŠ›ã•ã‚ŒãŸæ‰‹ãŒç•°å¸¸ã§ã™ã€‚å…¥åŠ›ã—ãªãŠã—ã¦ãã ã•ã„ã€‚\n");
 		char illBuf[10];
 		if (promote) {
 			strncpy(illBuf, buf, 5);
@@ -162,7 +162,7 @@ int USIUtil::AddMove(const char *buf, Kyokumen *k, int SorE, int teNum, Te *teBu
 			strncpy(illBuf, buf, 4);
 			illBuf[4] = 0;
 		}
-		printf("illegal move %s\n", illBuf); // ‚±‚ê‚ÍUSI‚ÌƒRƒ}ƒ“ƒh‚Å‚Í‚È‚¢
+		printf("illegal move %s\n", illBuf); // ã“ã‚Œã¯USIã®ã‚³ãƒãƒ³ãƒ‰ã§ã¯ãªã„
 		return 0;
 	}
 	k->Move(SorE, te);

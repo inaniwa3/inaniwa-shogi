@@ -1,4 +1,4 @@
-#include <stdlib.h>
+ï»¿#include <stdlib.h>
 #include <string.h>
 
 #include "Kyokumen.h"
@@ -7,14 +7,14 @@ Joseki::Joseki(char *filenames)
 {
 	//char chCurrentDir[256];
 	//GetCurrentDirectory( sizeof( chCurrentDir ), chCurrentDir ); 
-	// filenames‚ÍA,‹æØ‚è‚Æ‚·‚éB
-	// JosekiData‚Í‚PƒGƒ“ƒgƒŠ[‚T‚P‚QƒoƒCƒg‚Æ‚·‚éB
-	// JosekiSize‚Íƒtƒ@ƒCƒ‹‚Ì’·‚³/512‚Æ‚È‚éB
+	// filenamesã¯ã€,åŒºåˆ‡ã‚Šã¨ã™ã‚‹ã€‚
+	// JosekiDataã¯ï¼‘ã‚¨ãƒ³ãƒˆãƒªãƒ¼ï¼•ï¼‘ï¼’ãƒã‚¤ãƒˆã¨ã™ã‚‹ã€‚
+	// JosekiSizeã¯ãƒ•ã‚¡ã‚¤ãƒ«ã®é•·ã•/512ã¨ãªã‚‹ã€‚
 	char *filename=filenames;
 	char *nextfile=strchr(filenames,',');
 	if (nextfile!=NULL) {
-		*nextfile='\0';	// ,‚ğ\0‚Å’u‚«Š·‚¦
-		nextfile++;		// Ÿ‚Ìƒtƒ@ƒCƒ‹–¼‚Ìæ“ª‚Ö
+		*nextfile='\0';	// ,ã‚’\0ã§ç½®ãæ›ãˆ
+		nextfile++;		// æ¬¡ã®ãƒ•ã‚¡ã‚¤ãƒ«åã®å…ˆé ­ã¸
 		child=new Joseki(nextfile);
 	} else {
 		child=NULL;

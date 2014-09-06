@@ -1,66 +1,66 @@
-#include "Sikou.h"
+ï»¿#include "Sikou.h"
 
 extern int InaniwaTimeTesu;
 extern int InaniwaKomagumiTesu;
 extern Te  InaniwaLastTe;
 
-// vl•”ƒƒCƒ“
+// æ€è€ƒéƒ¨ãƒ¡ã‚¤ãƒ³
 Te Sikou::InaniwaTime(int SorE, KyokumenKomagumi &k)
 {
 	Te te(0);
 
-	// ---------- 0. ˆî’ëƒ^ƒCƒ€‚Ì”»’è ---------- //
-	if(!InaniwaAlgorithm0(SorE,k)) {                   // ˆî’ëƒ^ƒCƒ€‚Ì”»’è //
+	// ---------- 0. ç¨²åº­ã‚¿ã‚¤ãƒ ã®åˆ¤å®š ---------- //
+	if(!InaniwaAlgorithm0(SorE,k)) {                   // ç¨²åº­ã‚¿ã‚¤ãƒ ã®åˆ¤å®š //
 		// printf("info string InaniwaAlgorithm0\n");
 		return te;
 	}
 
-	// ---------- 1. ó‚¯‚é ---------- //
-	te = InaniwaAlgorithmE(SorE,k);                    // Šp‚ª”`‚¢‚Ä‚­‚é //
+	// ---------- 1. å—ã‘ã‚‹ ---------- //
+	te = InaniwaAlgorithmE(SorE,k);                    // è§’ãŒè¦—ã„ã¦ãã‚‹ //
 	if(te.IsNull()==0) {
 		// printf("info string InaniwaAlgorithmE\n");
 		return te;
 	}
 
-	te = InaniwaAlgorithmF(SorE,k,0x07);               // µ`‹ã’i–Ú‚É“G‚Ì‹î‚ª‚ ‚ê‚Îæ‚é //
+	te = InaniwaAlgorithmF(SorE,k,0x07);               // ä¸ƒã€œä¹æ®µç›®ã«æ•µã®é§’ãŒã‚ã‚Œã°å–ã‚‹ //
 	if(te.IsNull()==0) {
 		// printf("info string InaniwaAlgorithmF\n");
 		return te;
 	}
 
-	te = InaniwaAlgorithmA(SorE,k);                    // “G‚ª˜Z’i–Ú‚É‚¢‚é //
+	te = InaniwaAlgorithmA(SorE,k);                    // æ•µãŒå…­æ®µç›®ã«ã„ã‚‹ //
 	if(te.IsNull()==0) {
 		// printf("info string InaniwaAlgorithmA\n");
 		return te;
 	}
 
-	// ---------- 2. ‹î‘g‚İ‚ğ‚·‚é ---------- //
-	te = InaniwaAlgorithm3(SorE,k);                    // ‹î‘g‚İ‚ğ‚·‚é //
+	// ---------- 2. é§’çµ„ã¿ã‚’ã™ã‚‹ ---------- //
+	te = InaniwaAlgorithm3(SorE,k);                    // é§’çµ„ã¿ã‚’ã™ã‚‹ //
 	if(te.IsNull()==0) {
 		// printf("info string InaniwaAlgorithm3\n");
 		return te;
 	}
 	
-	te = InaniwaAlgorithm1(SorE,k);                    // µ’i–Ú‚É•à‚ª‘Å‚Ä‚½‚ç‘Å‚Â //
+	te = InaniwaAlgorithm1(SorE,k);                    // ä¸ƒæ®µç›®ã«æ­©ãŒæ‰“ã¦ãŸã‚‰æ‰“ã¤ //
 	if(te.IsNull()==0) {
 		// printf("info string InaniwaAlgorithm1\n");
 		return te;
 	}
 
-	te = InaniwaAlgorithm4(SorE,k);                    // ’èˆÊ’u‹î‚ğ’èˆÊ’u‚É–ß‚· //
+	te = InaniwaAlgorithm4(SorE,k);                    // å®šä½ç½®é§’ã‚’å®šä½ç½®ã«æˆ»ã™ //
 	if(te.IsNull()==0) {
 		// printf("info string InaniwaAlgorithm4\n");
 		return te;
 	}
 	
-	te = InaniwaAlgorithmG(SorE,k);                    // “G‚ªŒÜ’i–Ú‚É‚¢‚é //
+	te = InaniwaAlgorithmG(SorE,k);                    // æ•µãŒäº”æ®µç›®ã«ã„ã‚‹ //
 	if(te.IsNull()==0) {
 		// printf("info string InaniwaAlgorithmG\n");
 		return te;
 	}
 
-	// ---------- 3. ƒEƒƒEƒ‚·‚é ---------- //
-	te = InaniwaAlgorithmD(SorE,k);                    // ƒEƒƒEƒ‚·‚é //
+	// ---------- 3. ã‚¦ãƒ­ã‚¦ãƒ­ã™ã‚‹ ---------- //
+	te = InaniwaAlgorithmD(SorE,k);                    // ã‚¦ãƒ­ã‚¦ãƒ­ã™ã‚‹ //
 	if(te.IsNull()==0) {
 		// printf("info string InaniwaAlgorithmD\n");
 		return te;
@@ -69,9 +69,9 @@ Te Sikou::InaniwaTime(int SorE, KyokumenKomagumi &k)
 	return te;
 }
 
-// ------------------------------ 0. ˆî’ëƒ^ƒCƒ€‚Ì”»’è ------------------------------ //
+// ------------------------------ 0. ç¨²åº­ã‚¿ã‚¤ãƒ ã®åˆ¤å®š ------------------------------ //
 
-// ‘Šè‚Ì‚¿‹î‚É•à’´‚ª‚ ‚ê‚Îˆî’ëƒ^ƒCƒ€I—¹
+// ç›¸æ‰‹ã®æŒã¡é§’ã«æ­©è¶…ãŒã‚ã‚Œã°ç¨²åº­ã‚¿ã‚¤ãƒ çµ‚äº†
 bool Sikou::InaniwaAlgorithm0(int SorE, KyokumenKomagumi &k)
 {
 	if(SorE==SELF) {
@@ -94,9 +94,9 @@ bool Sikou::InaniwaAlgorithm0(int SorE, KyokumenKomagumi &k)
 	return true;
 }
 
-// ------------------------------ 1. ó‚¯‚é ------------------------------ //
+// ------------------------------ 1. å—ã‘ã‚‹ ------------------------------ //
 
-// Šp‚ª”`‚¢‚Ä‚­‚é
+// è§’ãŒè¦—ã„ã¦ãã‚‹
 Te Sikou::InaniwaAlgorithmE(int SorE, KyokumenKomagumi &k)
 {
 	int teNum = 0;
@@ -104,43 +104,43 @@ Te Sikou::InaniwaAlgorithmE(int SorE, KyokumenKomagumi &k)
 
 	if(SorE==SELF) {
 		if((k.CountControlE(0x37)>>16&1)==1 && k.ban[0x37]==EMPTY) {
-			teBuf[teNum++] = Te(0x00,0x37,SFU,k.ban[0x37]);  // ‚Ü‚¸µ’i–Ú‚É•à‚ğ‘Å‚Á‚Ä‚İ‚é
+			teBuf[teNum++] = Te(0x00,0x37,SFU,k.ban[0x37]);  // ã¾ãšä¸ƒæ®µç›®ã«æ­©ã‚’æ‰“ã£ã¦ã¿ã‚‹
 			if(k.ban[0x48]==SKI || k.ban[0x48]==SHI || k.ban[0x59]==SHI) {
-				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ‚«‚Á‚Æ”ğ‚¯‚Ä‚­‚ê‚é
+				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ãã£ã¨é¿ã‘ã¦ãã‚Œã‚‹
 			}
 		}
 		if((k.CountControlE(0x37)>>18&1)==1 && k.ban[0x37]==EMPTY) {
-			teBuf[teNum++] = Te(0x00,0x37,SFU,k.ban[0x37]);  // ‚Ü‚¸µ’i–Ú‚É•à‚ğ‘Å‚Á‚Ä‚İ‚é
-			teBuf[teNum++] = Te(0x17,0x28,SGI,k.ban[0x28]);  // ƒ_ƒ‚à‚Æ‚Å‹â‚ğ–ß‚µ‚Ä‚İ‚é
+			teBuf[teNum++] = Te(0x00,0x37,SFU,k.ban[0x37]);  // ã¾ãšä¸ƒæ®µç›®ã«æ­©ã‚’æ‰“ã£ã¦ã¿ã‚‹
+			teBuf[teNum++] = Te(0x17,0x28,SGI,k.ban[0x28]);  // ãƒ€ãƒ¡ã‚‚ã¨ã§éŠ€ã‚’æˆ»ã—ã¦ã¿ã‚‹
 			if(k.ban[0x38]!=SKI) {
-				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ‚«‚Á‚Æ”ğ‚¯‚Ä‚­‚ê‚é
+				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ãã£ã¨é¿ã‘ã¦ãã‚Œã‚‹
 			}
 		}
 		if((k.CountControlE(0x57)>>18&1)==1 && k.ban[0x57]==EMPTY) {
-			teBuf[teNum++] = Te(0x00,0x57,SFU,k.ban[0x57]);  // ‚Ü‚¸µ’i–Ú‚É•à‚ğ‘Å‚Á‚Ä‚İ‚é
+			teBuf[teNum++] = Te(0x00,0x57,SFU,k.ban[0x57]);  // ã¾ãšä¸ƒæ®µç›®ã«æ­©ã‚’æ‰“ã£ã¦ã¿ã‚‹
 			if(k.ban[0x48]==SKI || k.ban[0x48]==SHI || k.ban[0x39]==SHI) {
-				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ‚«‚Á‚Æ”ğ‚¯‚Ä‚­‚ê‚é
+				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ãã£ã¨é¿ã‘ã¦ãã‚Œã‚‹
 			}
 		}
 	}
 	if(SorE==ENEMY) {
 		if((k.CountControlS(0x73)>>23&1)==1 && k.ban[0x73]==EMPTY) {
-			teBuf[teNum++] = Te(0x00,0x73,EFU,k.ban[0x73]);  // ‚Ü‚¸O’i–Ú‚É•à‚ğ‘Å‚Á‚Ä‚İ‚é
+			teBuf[teNum++] = Te(0x00,0x73,EFU,k.ban[0x73]);  // ã¾ãšä¸‰æ®µç›®ã«æ­©ã‚’æ‰“ã£ã¦ã¿ã‚‹
 			if(k.ban[0x62]==EKI || k.ban[0x62]==EHI || k.ban[0x51]==EHI) {
-				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ‚«‚Á‚Æ”ğ‚¯‚Ä‚­‚ê‚é
+				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ãã£ã¨é¿ã‘ã¦ãã‚Œã‚‹
 			}
 		}
 		if((k.CountControlS(0x73)>>21&1)==1 && k.ban[0x73]==EMPTY) {
-			teBuf[teNum++] = Te(0x00,0x73,EFU,k.ban[0x73]);  // ‚Ü‚¸O’i–Ú‚É•à‚ğ‘Å‚Á‚Ä‚İ‚é
-			teBuf[teNum++] = Te(0x93,0x82,EGI,k.ban[0x82]);  // ƒ_ƒ‚à‚Æ‚Å‹â‚ğ–ß‚µ‚Ä‚İ‚é
+			teBuf[teNum++] = Te(0x00,0x73,EFU,k.ban[0x73]);  // ã¾ãšä¸‰æ®µç›®ã«æ­©ã‚’æ‰“ã£ã¦ã¿ã‚‹
+			teBuf[teNum++] = Te(0x93,0x82,EGI,k.ban[0x82]);  // ãƒ€ãƒ¡ã‚‚ã¨ã§éŠ€ã‚’æˆ»ã—ã¦ã¿ã‚‹
 			if(k.ban[0x72]!=EKI) {
-				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ‚«‚Á‚Æ”ğ‚¯‚Ä‚­‚ê‚é
+				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ãã£ã¨é¿ã‘ã¦ãã‚Œã‚‹
 			}
 		}
 		if((k.CountControlS(0x53)>>21&1)==1 && k.ban[0x53]==EMPTY) {
-			teBuf[teNum++] = Te(0x00,0x53,EFU,k.ban[0x53]);  // ‚Ü‚¸O’i–Ú‚É•à‚ğ‘Å‚Á‚Ä‚İ‚é
+			teBuf[teNum++] = Te(0x00,0x53,EFU,k.ban[0x53]);  // ã¾ãšä¸‰æ®µç›®ã«æ­©ã‚’æ‰“ã£ã¦ã¿ã‚‹
 			if(k.ban[0x62]==EKI || k.ban[0x62]==EHI || k.ban[0x71]==EHI) {
-				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ‚«‚Á‚Æ”ğ‚¯‚Ä‚­‚ê‚é
+				teBuf[teNum++] = InaniwaAlgorithmD(SorE,k);  // ãã£ã¨é¿ã‘ã¦ãã‚Œã‚‹
 			}
 		}
 	}
@@ -155,7 +155,7 @@ Te Sikou::InaniwaAlgorithmE(int SorE, KyokumenKomagumi &k)
 	return te;
 }
 
-// µ`‹ã’i–Ú‚É“G‚Ì‹î‚ª‚ ‚ê‚Îæ‚é
+// ä¸ƒã€œä¹æ®µç›®ã«æ•µã®é§’ãŒã‚ã‚Œã°å–ã‚‹
 Te Sikou::InaniwaAlgorithmF(int SorE, KyokumenKomagumi &k, int danTH)
 {
 	int teNum;
@@ -164,8 +164,8 @@ Te Sikou::InaniwaAlgorithmF(int SorE, KyokumenKomagumi &k, int danTH)
 
 	teNum = k.MakeLegalMoves(SorE,teBuf);
 
-	// ---------- ©•ª‚Ì”ò‚Ì‹Ø‚Æ’i‚ğ‹‚ß‚é ---------- //
-	// ---------- ‘Šè‚Ì”ò‚Ì‹Ø@@‚ğ‹‚ß‚é ---------- //
+	// ---------- è‡ªåˆ†ã®é£›ã®ç­‹ã¨æ®µã‚’æ±‚ã‚ã‚‹ ---------- //
+	// ---------- ç›¸æ‰‹ã®é£›ã®ç­‹ã€€ã€€ã‚’æ±‚ã‚ã‚‹ ---------- //
 	int sujiSHI = 0, danSHI = 0;
 	int sujiEHI = 0, danEHI = 0;
 	if(SorE==SELF){
@@ -189,11 +189,11 @@ Te Sikou::InaniwaAlgorithmF(int SorE, KyokumenKomagumi &k, int danTH)
 		for(int i=0;i<teNum;i++) {
 			if((teBuf[i].capture&ENEMY) && (teBuf[i].to&0x0f)>=danTH) {
 				if(k.CountControlE(teBuf[i].to)) {
-					if((teBuf[i].koma<teBufBest.koma || teBufBest.koma==0) && !(teBuf[i].to==0x57 && sujiEHI>=0x70)) {  // ‚Tµ‚Í‚Æ‚ç‚È‚¢
+					if((teBuf[i].koma<teBufBest.koma || teBufBest.koma==0) && !(teBuf[i].to==0x57 && sujiEHI>=0x70)) {  // ï¼•ä¸ƒã¯ã¨ã‚‰ãªã„
 						teBufBest = teBuf[i];
 					}
 				} else {
-					if(teBuf[i].koma>teBufBest.koma && teBufBest.koma!=SFU) {  // æ‚è‚É‚¢‚­‹î‚Ì—Dæ“x‚Í•à„‰¤„c„
+					if(teBuf[i].koma>teBufBest.koma && teBufBest.koma!=SFU) {  // å–ã‚Šã«ã„ãé§’ã®å„ªå…ˆåº¦ã¯æ­©ï¼ç‹ï¼â€¦ï¼é¦™
 						teBufBest = teBuf[i];
 					}
 				}
@@ -204,11 +204,11 @@ Te Sikou::InaniwaAlgorithmF(int SorE, KyokumenKomagumi &k, int danTH)
 		for(int i=0;i<teNum;i++) {
 			if((teBuf[i].capture&SELF) && (teBuf[i].to&0x0f)<=(0x0A-danTH)) {
 				if(k.CountControlS(teBuf[i].to)) {
-					if((teBuf[i].koma<teBufBest.koma || teBufBest.koma==0) && !(teBuf[i].to==0x53 && sujiSHI<=0x30)) {  // ‚TO‚Í‚Æ‚ç‚È‚¢
+					if((teBuf[i].koma<teBufBest.koma || teBufBest.koma==0) && !(teBuf[i].to==0x53 && sujiSHI<=0x30)) {  // ï¼•ä¸‰ã¯ã¨ã‚‰ãªã„
 						teBufBest = teBuf[i];
 					}
 				} else {
-					if(teBuf[i].koma>teBufBest.koma && teBufBest.koma!=EFU) {  // æ‚è‚É‚¢‚­‹î‚Ì—Dæ“x‚Í•à„‰¤„c„
+					if(teBuf[i].koma>teBufBest.koma && teBufBest.koma!=EFU) {  // å–ã‚Šã«ã„ãé§’ã®å„ªå…ˆåº¦ã¯æ­©ï¼ç‹ï¼â€¦ï¼é¦™
 						teBufBest = teBuf[i];
 					}
 				}
@@ -216,7 +216,7 @@ Te Sikou::InaniwaAlgorithmF(int SorE, KyokumenKomagumi &k, int danTH)
 		}
 	}
 
-	// ---------- ‚±‚±‚©‚ç—áŠO ---------- // 
+	// ---------- ã“ã“ã‹ã‚‰ä¾‹å¤– ---------- // 
 
 	if(SorE==SELF) {
 		if(k.ban[0x88]==SKI && k.ban[0x99]==SKY && sujiEHI==0x70 && k.ban[0x98]&ENEMY) {
@@ -243,7 +243,7 @@ Te Sikou::InaniwaAlgorithmF(int SorE, KyokumenKomagumi &k, int danTH)
 				;
 			} else {
 				if(sujiEHI>=0x70) {
-					teBufBest = InaniwaAlgorithmD(SorE,k);  // ‚«‚Á‚Æ‚È‚ñ‚Æ‚©‚µ‚Ä‚­‚ê‚é
+					teBufBest = InaniwaAlgorithmD(SorE,k);  // ãã£ã¨ãªã‚“ã¨ã‹ã—ã¦ãã‚Œã‚‹
 				} else {
 					;
 				}
@@ -282,7 +282,7 @@ Te Sikou::InaniwaAlgorithmF(int SorE, KyokumenKomagumi &k, int danTH)
 				;
 			} else {
 				if(sujiSHI<=0x30) {
-					teBufBest = InaniwaAlgorithmD(SorE,k);  // ‚«‚Á‚Æ‚È‚ñ‚Æ‚©‚µ‚Ä‚­‚ê‚é
+					teBufBest = InaniwaAlgorithmD(SorE,k);  // ãã£ã¨ãªã‚“ã¨ã‹ã—ã¦ãã‚Œã‚‹
 				} else {
 					;
 				}
@@ -300,14 +300,14 @@ Te Sikou::InaniwaAlgorithmF(int SorE, KyokumenKomagumi &k, int danTH)
 	return teBufBest;
 }
 
-// “G‚ª˜Z’i–Ú‚É‚¢‚é
+// æ•µãŒå…­æ®µç›®ã«ã„ã‚‹
 Te Sikou::InaniwaAlgorithmA(int SorE, KyokumenKomagumi &k)
 {
 	int teNum = 0;
 	Te teBuf[600];
 
 	int sujiA[10];
-	sujiA[0] = InaniwaLastTe.to&0xf0;  // ˆêè‘O
+	sujiA[0] = InaniwaLastTe.to&0xf0;  // ä¸€æ‰‹å‰
 
 	if(SorE==SELF) {
 		for(int i=1,suji=0x10;suji<=0x90;suji+=0x10) {
@@ -321,26 +321,26 @@ Te Sikou::InaniwaAlgorithmA(int SorE, KyokumenKomagumi &k)
 	}
 
 	if(SorE==SELF) {
-		for(int i=0;i<=9;++i) {  // —Dæ‡‚‚¢‹Ø
+		for(int i=0;i<=9;++i) {  // å„ªå…ˆé †é«˜ã„ç­‹
 			int suji = sujiA[i];
-			if(k.ban[suji+0x06]&ENEMY) {  // “G‚ª˜Z’i–Ú‚É‚¢‚é‚©
-				if(k.ban[suji+0x07]==SFU) {  // ŒÈ•à‚ªµ’i–Ú‚É‚¢‚é‚©
-					teBuf[teNum++] = Te(suji+0x07,suji+0x06,SFU,k.ban[suji+0x06]);  // ‚¢‚½‚çæ‚é
-				} else if(k.ban[suji+0x07]==SKY) {  // ŒÈ‚ªµ’i–Ú‚É‚¢‚é‚©
-					teBuf[teNum++] = Te(suji+0x07,suji+0x06,SKY,k.ban[suji+0x06]);  // ‚¢‚½‚çæ‚é
-				} else if(k.ban[suji+0x07]==EMPTY) {  // µ’i–Ú‚É‚È‚É‚à‚È‚¯‚ê‚Î
+			if(k.ban[suji+0x06]&ENEMY) {  // æ•µãŒå…­æ®µç›®ã«ã„ã‚‹ã‹
+				if(k.ban[suji+0x07]==SFU) {  // å·±æ­©ãŒä¸ƒæ®µç›®ã«ã„ã‚‹ã‹
+					teBuf[teNum++] = Te(suji+0x07,suji+0x06,SFU,k.ban[suji+0x06]);  // ã„ãŸã‚‰å–ã‚‹
+				} else if(k.ban[suji+0x07]==SKY) {  // å·±é¦™ãŒä¸ƒæ®µç›®ã«ã„ã‚‹ã‹
+					teBuf[teNum++] = Te(suji+0x07,suji+0x06,SKY,k.ban[suji+0x06]);  // ã„ãŸã‚‰å–ã‚‹
+				} else if(k.ban[suji+0x07]==EMPTY) {  // ä¸ƒæ®µç›®ã«ãªã«ã‚‚ãªã‘ã‚Œã°
 					switch(k.ban[suji+0x06]) {
-						case EFU: case EKY:  // •à‚©‚È‚ç
-							if(suji==0x10 || suji==0x90) {  // ‚P‹Ø‚©‚X‹Ø‚È‚ç
-								teBuf[teNum++] = Te(0x00,suji+0x08,SFU,k.ban[suji+0x08]);  // ‚Ü‚¸”ª’i–Ú‚É•à‚ğ‘Å‚Á‚Ä‚İ‚é
+						case EFU: case EKY:  // æ­©ã‹é¦™ãªã‚‰
+							if(suji==0x10 || suji==0x90) {  // ï¼‘ç­‹ã‹ï¼™ç­‹ãªã‚‰
+								teBuf[teNum++] = Te(0x00,suji+0x08,SFU,k.ban[suji+0x08]);  // ã¾ãšå…«æ®µç›®ã«æ­©ã‚’æ‰“ã£ã¦ã¿ã‚‹
 							}
-							teBuf[teNum++] = Te(0x00,suji+0x07,SFU,k.ban[suji+0x07]);  // µ’i–Ú‚É•à‚ğ‘Å‚Â
+							teBuf[teNum++] = Te(0x00,suji+0x07,SFU,k.ban[suji+0x07]);  // ä¸ƒæ®µç›®ã«æ­©ã‚’æ‰“ã¤
 							break;
-						default:  // ‚»‚êˆÈŠO‚È‚ç // iŒjjC‹âCi‹àjCŠpC”òCi‰¤jCi¬j
-							teBuf[teNum++] = Te(0x00,suji+0x07,SFU,k.ban[suji+0x07]);  // µ’i–Ú‚É•à‚ğ‘Å‚Â
+						default:  // ãã‚Œä»¥å¤–ãªã‚‰ // ï¼ˆæ¡‚ï¼‰ï¼ŒéŠ€ï¼Œï¼ˆé‡‘ï¼‰ï¼Œè§’ï¼Œé£›ï¼Œï¼ˆç‹ï¼‰ï¼Œï¼ˆæˆï¼‰
+							teBuf[teNum++] = Te(0x00,suji+0x07,SFU,k.ban[suji+0x07]);  // ä¸ƒæ®µç›®ã«æ­©ã‚’æ‰“ã¤
 							break;
 					}
-				} else {  // µ’i–Ú‚É•àˆÈŠO‚ª‚¢‚½‚çi’@‚©‚ê‚½‚çj
+				} else {  // ä¸ƒæ®µç›®ã«æ­©ä»¥å¤–ãŒã„ãŸã‚‰ï¼ˆå©ã‹ã‚ŒãŸã‚‰ï¼‰
 					teBuf[teNum++] = InaniwaAlgorithm4(SorE,k);
 					teBuf[teNum++] = InaniwaAlgorithmF(SorE,k,0x06);
 				}
@@ -348,28 +348,28 @@ Te Sikou::InaniwaAlgorithmA(int SorE, KyokumenKomagumi &k)
 		}
 	}
 	if(SorE==ENEMY) {
-		for(int i=0;i<=9;++i) {  // —Dæ‡‚‚¢‹Ø
+		for(int i=0;i<=9;++i) {  // å„ªå…ˆé †é«˜ã„ç­‹
 			int suji = sujiA[i];
-			if(k.ban[suji+0x04]&SELF) {  // “G‚ªl’i–Ú‚É‚¢‚é‚©
-				if(k.ban[suji+0x03]==EFU) {  // ŒÈ•à‚ªO’i–Ú‚É‚¢‚é‚©
-					teBuf[teNum++] = Te(suji+0x03,suji+0x04,EFU,k.ban[suji+0x04]);  // ‚¢‚½‚çæ‚é
-				} else if(k.ban[suji+0x03]==EKY) {  // ŒÈ‚ªO’i–Ú‚É‚¢‚é‚©
-					teBuf[teNum++] = Te(suji+0x03,suji+0x04,EKY,k.ban[suji+0x04]);  // ‚¢‚½‚çæ‚é
-				} else if(k.ban[suji+0x03]==EMPTY) {  // O’i–Ú‚É‚È‚É‚à‚È‚¯‚ê‚Î
+			if(k.ban[suji+0x04]&SELF) {  // æ•µãŒå››æ®µç›®ã«ã„ã‚‹ã‹
+				if(k.ban[suji+0x03]==EFU) {  // å·±æ­©ãŒä¸‰æ®µç›®ã«ã„ã‚‹ã‹
+					teBuf[teNum++] = Te(suji+0x03,suji+0x04,EFU,k.ban[suji+0x04]);  // ã„ãŸã‚‰å–ã‚‹
+				} else if(k.ban[suji+0x03]==EKY) {  // å·±é¦™ãŒä¸‰æ®µç›®ã«ã„ã‚‹ã‹
+					teBuf[teNum++] = Te(suji+0x03,suji+0x04,EKY,k.ban[suji+0x04]);  // ã„ãŸã‚‰å–ã‚‹
+				} else if(k.ban[suji+0x03]==EMPTY) {  // ä¸‰æ®µç›®ã«ãªã«ã‚‚ãªã‘ã‚Œã°
 					switch(k.ban[suji+0x04]) {
-						case SFU: case SKY:  // •à‚©‚È‚ç
-							if(suji==0x90 || suji==0x10) {  // ‚X‹Ø‚©‚P‹Ø‚È‚ç
-								teBuf[teNum++] = Te(0x00,suji+0x02,EFU,k.ban[suji+0x02]);  // ‚Ü‚¸“ñ’i–Ú‚É•à‚ğ‘Å‚Á‚Ä‚İ‚é
+						case SFU: case SKY:  // æ­©ã‹é¦™ãªã‚‰
+							if(suji==0x90 || suji==0x10) {  // ï¼™ç­‹ã‹ï¼‘ç­‹ãªã‚‰
+								teBuf[teNum++] = Te(0x00,suji+0x02,EFU,k.ban[suji+0x02]);  // ã¾ãšäºŒæ®µç›®ã«æ­©ã‚’æ‰“ã£ã¦ã¿ã‚‹
 							}
-							teBuf[teNum++] = Te(0x00,suji+0x03,EFU,k.ban[suji+0x03]);  // O’i–Ú‚É•à‚ğ‘Å‚Â
+							teBuf[teNum++] = Te(0x00,suji+0x03,EFU,k.ban[suji+0x03]);  // ä¸‰æ®µç›®ã«æ­©ã‚’æ‰“ã¤
 							break;
-						default:  // ‚»‚êˆÈŠO‚È‚ç // iŒjjC‹âCi‹àjCŠpC”òCi‰¤jCi¬j
-							teBuf[teNum++] = Te(0x00,suji+0x03,EFU,k.ban[suji+0x03]);  // O’i–Ú‚É•à‚ğ‘Å‚Â
+						default:  // ãã‚Œä»¥å¤–ãªã‚‰ // ï¼ˆæ¡‚ï¼‰ï¼ŒéŠ€ï¼Œï¼ˆé‡‘ï¼‰ï¼Œè§’ï¼Œé£›ï¼Œï¼ˆç‹ï¼‰ï¼Œï¼ˆæˆï¼‰
+							teBuf[teNum++] = Te(0x00,suji+0x03,EFU,k.ban[suji+0x03]);  // ä¸‰æ®µç›®ã«æ­©ã‚’æ‰“ã¤
 							break;
 					}
-				} else {  // O’i–Ú‚É•àˆÈŠO‚ª‚¢‚½‚çi’@‚©‚ê‚½‚çj
+				} else {  // ä¸‰æ®µç›®ã«æ­©ä»¥å¤–ãŒã„ãŸã‚‰ï¼ˆå©ã‹ã‚ŒãŸã‚‰ï¼‰
 					teBuf[teNum++] = InaniwaAlgorithm4(SorE,k);
-					teBuf[teNum++] = InaniwaAlgorithmF(SorE,k,0x06);  // ’ˆÓF0x04‚Å‚Í‚È‚¢
+					teBuf[teNum++] = InaniwaAlgorithmF(SorE,k,0x06);  // æ³¨æ„ï¼š0x04ã§ã¯ãªã„
 				}
 			}
 		}
@@ -385,10 +385,10 @@ Te Sikou::InaniwaAlgorithmA(int SorE, KyokumenKomagumi &k)
 	return te;
 }
 
-// ------------------------------ 2. ‹î‘g‚İ‚ğ‚·‚é ------------------------------ //
+// ------------------------------ 2. é§’çµ„ã¿ã‚’ã™ã‚‹ ------------------------------ //
 
-// ‹î‘g‚İ‚ğ‚·‚é
-// ‹î‘g‚İè”‚ª0‚É‚È‚é‚Ü‚Å—ñ‹L‚³‚ê‚½è‚ğ‡‚Éw‚·
+// é§’çµ„ã¿ã‚’ã™ã‚‹
+// é§’çµ„ã¿æ‰‹æ•°ãŒ0ã«ãªã‚‹ã¾ã§åˆ—è¨˜ã•ã‚ŒãŸæ‰‹ã‚’é †ã«æŒ‡ã™
 Te Sikou::InaniwaAlgorithm3(int SorE, KyokumenKomagumi &k)
 {
 	int teNum = 0;
@@ -456,7 +456,7 @@ Te Sikou::InaniwaAlgorithm3(int SorE, KyokumenKomagumi &k)
 	return te;
 }
 
-// µ’i–Ú‚É•à‚ª‘Å‚Ä‚½‚ç‘Å‚Â
+// ä¸ƒæ®µç›®ã«æ­©ãŒæ‰“ã¦ãŸã‚‰æ‰“ã¤
 Te Sikou::InaniwaAlgorithm1(int SorE, KyokumenKomagumi &k)
 {
 	if(SorE==SELF) {
@@ -478,7 +478,7 @@ Te Sikou::InaniwaAlgorithm1(int SorE, KyokumenKomagumi &k)
 	return te;
 }
 
-// ’èˆÊ’u‹î‚ğ’èˆÊ’u‚É–ß‚·
+// å®šä½ç½®é§’ã‚’å®šä½ç½®ã«æˆ»ã™
 Te Sikou::InaniwaAlgorithm4(int SorE, KyokumenKomagumi &k)
 {
 	int teNum = 0;
@@ -567,37 +567,37 @@ Te Sikou::InaniwaAlgorithm4(int SorE, KyokumenKomagumi &k)
 	return te;
 }
 
-// “G‚ªŒÜ’i–Ú‚É‚¢‚é
+// æ•µãŒäº”æ®µç›®ã«ã„ã‚‹
 Te Sikou::InaniwaAlgorithmG(int SorE, KyokumenKomagumi &k)
 {
 	int teNum = 0;
 	Te teBuf[600];
 
 	if(SorE==SELF) {
-		for(int suji=0x10;suji<=0x90;suji+=0x10) {  // —Dæ‡‚‚¢‹Ø
-			if(k.ban[suji+0x05]&ENEMY) {  // “G‚ªŒÜ’i–Ú‚É‚¢‚é‚©
-				if(k.ban[suji+0x06]==SFU) {  // ŒÈ•à‚ª˜Z’i–Ú‚É‚¢‚é‚©
-					teBuf[teNum++] = Te(suji+0x06,suji+0x05,SFU,k.ban[suji+0x05]);  // ‚¢‚½‚çæ‚é
-				} else if(k.ban[suji+0x06]==SKY) {  // ŒÈ‚ª˜Z’i–Ú‚É‚¢‚é‚©
-					teBuf[teNum++] = Te(suji+0x06,suji+0x05,SKY,k.ban[suji+0x05]);  // ‚¢‚½‚çæ‚é
-				} else if(k.ban[suji+0x06]==EMPTY) {  // ˜Z’i–Ú‚É‚È‚É‚à‚È‚¯‚ê‚Î
+		for(int suji=0x10;suji<=0x90;suji+=0x10) {  // å„ªå…ˆé †é«˜ã„ç­‹
+			if(k.ban[suji+0x05]&ENEMY) {  // æ•µãŒäº”æ®µç›®ã«ã„ã‚‹ã‹
+				if(k.ban[suji+0x06]==SFU) {  // å·±æ­©ãŒå…­æ®µç›®ã«ã„ã‚‹ã‹
+					teBuf[teNum++] = Te(suji+0x06,suji+0x05,SFU,k.ban[suji+0x05]);  // ã„ãŸã‚‰å–ã‚‹
+				} else if(k.ban[suji+0x06]==SKY) {  // å·±é¦™ãŒå…­æ®µç›®ã«ã„ã‚‹ã‹
+					teBuf[teNum++] = Te(suji+0x06,suji+0x05,SKY,k.ban[suji+0x05]);  // ã„ãŸã‚‰å–ã‚‹
+				} else if(k.ban[suji+0x06]==EMPTY) {  // å…­æ®µç›®ã«ãªã«ã‚‚ãªã‘ã‚Œã°
 					;
-				} else {  // ˜Z’i–Ú‚É•àˆÈŠO‚ª‚¢‚½‚çi’@‚©‚ê‚½‚çj
+				} else {  // å…­æ®µç›®ã«æ­©ä»¥å¤–ãŒã„ãŸã‚‰ï¼ˆå©ã‹ã‚ŒãŸã‚‰ï¼‰
 					;
 				}
 			}
 		}
 	}
 	if(SorE==ENEMY) {
-		for(int suji=0x90;suji>=0x10;suji-=0x10) {  // —Dæ‡‚‚¢‹Ø
-			if(k.ban[suji+0x05]&SELF) {  // “G‚ªŒÜ’i–Ú‚É‚¢‚é‚©
-				if(k.ban[suji+0x04]==EFU) {  // ŒÈ•à‚ªl’i–Ú‚É‚¢‚é‚©
-					teBuf[teNum++] = Te(suji+0x04,suji+0x05,EFU,k.ban[suji+0x05]);  // ‚¢‚½‚çæ‚é
-				} else if(k.ban[suji+0x04]==EKY) {  // ŒÈ‚ªl’i–Ú‚É‚¢‚é‚©
-					teBuf[teNum++] = Te(suji+0x04,suji+0x05,EKY,k.ban[suji+0x05]);  // ‚¢‚½‚çæ‚é
-				} else if(k.ban[suji+0x04]==EMPTY) {  // l’i–Ú‚É‚È‚É‚à‚È‚¯‚ê‚Î
+		for(int suji=0x90;suji>=0x10;suji-=0x10) {  // å„ªå…ˆé †é«˜ã„ç­‹
+			if(k.ban[suji+0x05]&SELF) {  // æ•µãŒäº”æ®µç›®ã«ã„ã‚‹ã‹
+				if(k.ban[suji+0x04]==EFU) {  // å·±æ­©ãŒå››æ®µç›®ã«ã„ã‚‹ã‹
+					teBuf[teNum++] = Te(suji+0x04,suji+0x05,EFU,k.ban[suji+0x05]);  // ã„ãŸã‚‰å–ã‚‹
+				} else if(k.ban[suji+0x04]==EKY) {  // å·±é¦™ãŒå››æ®µç›®ã«ã„ã‚‹ã‹
+					teBuf[teNum++] = Te(suji+0x04,suji+0x05,EKY,k.ban[suji+0x05]);  // ã„ãŸã‚‰å–ã‚‹
+				} else if(k.ban[suji+0x04]==EMPTY) {  // å››æ®µç›®ã«ãªã«ã‚‚ãªã‘ã‚Œã°
 					;
-				} else {  // l’i–Ú‚É•àˆÈŠO‚ª‚¢‚½‚çi’@‚©‚ê‚½‚çj
+				} else {  // å››æ®µç›®ã«æ­©ä»¥å¤–ãŒã„ãŸã‚‰ï¼ˆå©ã‹ã‚ŒãŸã‚‰ï¼‰
 					;
 				}
 			}
@@ -614,9 +614,9 @@ Te Sikou::InaniwaAlgorithmG(int SorE, KyokumenKomagumi &k)
 	return te;
 }
 
-// ------------------------------ 3. ƒEƒƒEƒ‚·‚é ------------------------------ //
+// ------------------------------ 3. ã‚¦ãƒ­ã‚¦ãƒ­ã™ã‚‹ ------------------------------ //
 
-// ƒEƒƒEƒ‚·‚é
+// ã‚¦ãƒ­ã‚¦ãƒ­ã™ã‚‹
 Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 {
 	int teNum = 0;
@@ -635,8 +635,8 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 	int sujiSHI = 0, danSHI = 0;
 	int sujiEHI = 0, danEHI = 0;
 
-	// ---------- ©•ª‚Ì”ò‚Ì‹Ø‚Æ’i‚ğ‹‚ß‚é ---------- //
-	// ---------- ‘Šè‚Ì”ò‚Ì‹Ø@@‚ğ‹‚ß‚é ---------- //
+	// ---------- è‡ªåˆ†ã®é£›ã®ç­‹ã¨æ®µã‚’æ±‚ã‚ã‚‹ ---------- //
+	// ---------- ç›¸æ‰‹ã®é£›ã®ç­‹ã€€ã€€ã‚’æ±‚ã‚ã‚‹ ---------- //
 	if(SorE==SELF){
 		for(int suji=0x10;suji<=0x90;suji+=0x10) {
 			for(int dan=0x01;dan<=0x09;dan+=0x01) {
@@ -656,7 +656,7 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 
 	// ----------  ---------- //
 	if(SorE==SELF){
-		// ---------- •à ---------- //
+		// ---------- æ­© ---------- //
 		if(k.ban[0x58]==EFU) {
 			NO[numNO].pos = 0x59;   NO[numNO].no = 0;   NO[numNO++].koma = SHI;
 		}
@@ -667,12 +667,12 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 			NO[numNO].pos = 0x69;   NO[numNO].no = 0;   NO[numNO++].koma = SHI;
 			NO[numNO].pos = 0x59;   NO[numNO].no = 1;   NO[numNO++].koma = SHI;
 		}
-		// ---------- Šp ---------- //
+		// ---------- è§’ ---------- //
 		if((k.CountControlE(0x37)>>16&1)==1 && (k.ban[0x35]==EFU || k.Hand[EFU]>0 || k.ban[0x37]==EMPTY)) {
 			NO[numNO].pos = 0x48;   NO[numNO].no = 0;   NO[numNO++].koma = SKI;
 			NO[numNO].pos = 0x48;   NO[numNO].no = 0;   NO[numNO++].koma = SHI;
 			NO[numNO].pos = 0x59;   NO[numNO].no = 0;   NO[numNO++].koma = SHI;
-			if(k.ban[0x48]==SKI && k.ban[0x59]==SHI) {  // —Dæ‡‚É
+			if(k.ban[0x48]==SKI && k.ban[0x59]==SHI) {  // å„ªå…ˆé †ã«
 				if(sujiEHI==0x40) {
 					NO[numNO].pos = 0x49;   NO[numNO].no = 1;   NO[numNO++].koma = SHI;
 				}
@@ -707,7 +707,7 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 				NO[numNO].pos = 0x88;   NO[numNO].no = 0;   NO[numNO++].koma = SKI;
 			}
 		}
-		// ---------- ”ò ---------- //
+		// ---------- é£› ---------- //
 		if(sujiEHI==0x10 || sujiEHI==0x20) {
 			NO[numNO].pos = 0x48;   NO[numNO].no = 0;   NO[numNO++].koma = SKI;
 		}
@@ -715,13 +715,13 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 			NO[numNO].pos = 0x39;   NO[numNO].no = 1;   NO[numNO++].koma = SHI;
 		}
 		if(sujiEHI==0x40) {
-			NO[numNO].pos = 0x49;   NO[numNO].no = 1;   NO[numNO++].koma = SHI;  // ‹ã’i—Dæ
+			NO[numNO].pos = 0x49;   NO[numNO].no = 1;   NO[numNO++].koma = SHI;  // ä¹æ®µå„ªå…ˆ
 			if(k.ban[0x49]!=SHI) {
 				NO[numNO].pos = 0x48;   NO[numNO].no = 1;   NO[numNO++].koma = SHI;
 			}
 		}
 		if(sujiEHI==0x50) {
-			NO[numNO].pos = 0x59;   NO[numNO].no = 1;   NO[numNO++].koma = SHI;  // ‹ã’i—Dæ
+			NO[numNO].pos = 0x59;   NO[numNO].no = 1;   NO[numNO++].koma = SHI;  // ä¹æ®µå„ªå…ˆ
 			if(k.ban[0x59]!=SHI) {
 				NO[numNO].pos = 0x58;   NO[numNO].no = 1;   NO[numNO++].koma = SHI;
 			}
@@ -739,7 +739,7 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 		}
 	}
 	if(SorE==ENEMY){
-		// ---------- •à ---------- //
+		// ---------- æ­© ---------- //
 		if(k.ban[0x52]==SFU) {
 			NO[numNO].pos = 0x51;   NO[numNO].no = 0;   NO[numNO++].koma = EHI;
 		}
@@ -750,12 +750,12 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 			NO[numNO].pos = 0x41;   NO[numNO].no = 0;   NO[numNO++].koma = EHI;
 			NO[numNO].pos = 0x51;   NO[numNO].no = 1;   NO[numNO++].koma = EHI;
 		}
-		// ---------- Šp ---------- //
+		// ---------- è§’ ---------- //
 		if((k.CountControlS(0x73)>>23&1)==1 && (k.ban[0x75]==SFU || k.Hand[SFU]>0 || k.ban[0x73]==EMPTY)) {
 			NO[numNO].pos = 0x62;   NO[numNO].no = 0;   NO[numNO++].koma = EKI;
 			NO[numNO].pos = 0x62;   NO[numNO].no = 0;   NO[numNO++].koma = EHI;
 			NO[numNO].pos = 0x51;   NO[numNO].no = 0;   NO[numNO++].koma = EHI;
-			if(k.ban[0x62]==EKI && k.ban[0x51]==EHI) {  // —Dæ‡‚É
+			if(k.ban[0x62]==EKI && k.ban[0x51]==EHI) {  // å„ªå…ˆé †ã«
 				if(sujiSHI==0x60) {
 					NO[numNO].pos = 0x61;   NO[numNO].no = 1;   NO[numNO++].koma = EHI;
 				}
@@ -790,7 +790,7 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 				NO[numNO].pos = 0x22;   NO[numNO].no = 0;   NO[numNO++].koma = EKI;
 			}
 		}
-		// ---------- ”ò ---------- //
+		// ---------- é£› ---------- //
 		if(sujiSHI==0x90 || sujiSHI==0x80) {
 			NO[numNO].pos = 0x62;   NO[numNO].no = 0;   NO[numNO++].koma = EKI;
 		}
@@ -798,13 +798,13 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 			NO[numNO].pos = 0x71;   NO[numNO].no = 1;   NO[numNO++].koma = EHI;
 		}
 		if(sujiSHI==0x60) {
-			NO[numNO].pos = 0x61;   NO[numNO].no = 1;   NO[numNO++].koma = EHI;  // ˆê’i—Dæ
+			NO[numNO].pos = 0x61;   NO[numNO].no = 1;   NO[numNO++].koma = EHI;  // ä¸€æ®µå„ªå…ˆ
 			if(k.ban[0x61]!=EHI) {
 				NO[numNO].pos = 0x62;   NO[numNO].no = 1;   NO[numNO++].koma = EHI;
 			}
 		}
 		if(sujiSHI==0x50) {
-			NO[numNO].pos = 0x51;   NO[numNO].no = 1;   NO[numNO++].koma = EHI;  // ˆê’i—Dæ
+			NO[numNO].pos = 0x51;   NO[numNO].no = 1;   NO[numNO++].koma = EHI;  // ä¸€æ®µå„ªå…ˆ
 			if(k.ban[0x51]!=EHI) {
 				NO[numNO].pos = 0x52;   NO[numNO].no = 1;   NO[numNO++].koma = EHI;
 			}
@@ -822,7 +822,7 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 		}
 	}
 
-	// ---------- ƒEƒƒEƒèƒŠƒXƒg—Dæ‡ ---------- //
+	// ---------- ã‚¦ãƒ­ã‚¦ãƒ­æ‰‹ãƒªã‚¹ãƒˆå„ªå…ˆé † ---------- //
 	if(SorE==SELF) {
 		teBuf[teNum++] = Te(0x98,0x88,SKI,EMP);
 			teBuf[teNum++] = Te(0x48,0x38,SKI,EMP);
@@ -874,83 +874,83 @@ Te Sikou::InaniwaAlgorithmD(int SorE, KyokumenKomagumi &k)
 
 	// ----------  ---------- //
 	Te teTmp(0);
-	for(int i=0;i<teNum;i++) {  //    -> NG ‚È‚ç íœ  // ‘O€”õ
+	for(int i=0;i<teNum;i++) {  //    -> NG ãªã‚‰ å‰Šé™¤  // å‰æº–å‚™
 		for(int j=0;j<numNO;j++) {
-			if(teBuf[i].to==NO[j].pos && NO[j].no==0 && teBuf[i].koma==NO[j].koma) {  // teBuf‚Ìto ‚ª NO‚ÌNG ‚Æ‡’v
-				teBuf[i] = teTmp;  // ƒŠƒXƒg‚©‚çíœ
+			if(teBuf[i].to==NO[j].pos && NO[j].no==0 && teBuf[i].koma==NO[j].koma) {  // teBufã®to ãŒ NOã®NG ã¨åˆè‡´
+				teBuf[i] = teTmp;  // ãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤
 			}
 		}
 	}
-	for(int j=0;j<numNO;j++) {  // NG -> OK ‚È‚ç ’Ç‰Á  // —Dæ‡ˆÊ:1
+	for(int j=0;j<numNO;j++) {  // NG -> OK ãªã‚‰ è¿½åŠ   // å„ªå…ˆé †ä½:1
 		for(int i=0;i<teNum;i++) {
-			if(teBuf[i].from==NO[j].pos && NO[j].no==0 && teBuf[i].koma==NO[j].koma) {  // NO‚ÌNG ‚ª teBuf‚Ìfrom ‚Æ‡’v
+			if(teBuf[i].from==NO[j].pos && NO[j].no==0 && teBuf[i].koma==NO[j].koma) {  // NOã®NG ãŒ teBufã®from ã¨åˆè‡´
 				for(int k=0;k<numNO;k++) {
-					if(teBuf[i].to==NO[k].pos && NO[k].no==1 && teBuf[i].koma==NO[k].koma) {  // teBuf‚Ìto ‚ª NO‚ÌOK ‚Æ‡’v
-						teBufBest[teNumBest++] = teBuf[i];  // ’Ç‰Á
+					if(teBuf[i].to==NO[k].pos && NO[k].no==1 && teBuf[i].koma==NO[k].koma) {  // teBufã®to ãŒ NOã®OK ã¨åˆè‡´
+						teBufBest[teNumBest++] = teBuf[i];  // è¿½åŠ 
 						// printf("info string Priority:1 %s:%2x%2x\n",komaStr2[teBuf[i].koma],teBuf[i].from,teBuf[i].to);
 					}
 				}
 			}
 		}
 	}
-	for(int j=0;j<numNO;j++) {  // NG -> ‚Ó‚Â‚¤ ‚È‚ç ’Ç‰Á  // —Dæ‡ˆÊ:2
+	for(int j=0;j<numNO;j++) {  // NG -> ãµã¤ã† ãªã‚‰ è¿½åŠ   // å„ªå…ˆé †ä½:2
 		for(int i=0;i<teNum;i++) {
-			if(teBuf[i].from==NO[j].pos && NO[j].no==0 && teBuf[i].koma==NO[j].koma) {  // NO‚ÌNG ‚ª teBuf‚Ìfrom ‚Æ‡’v
+			if(teBuf[i].from==NO[j].pos && NO[j].no==0 && teBuf[i].koma==NO[j].koma) {  // NOã®NG ãŒ teBufã®from ã¨åˆè‡´
 				int flg = 1;
 				for(int k=0;k<numNO;k++) {
-					if(teBuf[i].to==NO[k].pos && teBuf[i].koma==NO[k].koma) {  // teBuf‚Ìto ‚ª NO‚ÌOK‚à‚µ‚­‚ÍNG ‚Æ‡’v
+					if(teBuf[i].to==NO[k].pos && teBuf[i].koma==NO[k].koma) {  // teBufã®to ãŒ NOã®OKã‚‚ã—ãã¯NG ã¨åˆè‡´
 						flg = 0;
 					}
 				}
 				if(flg==1) {
-					teBufBest[teNumBest++] = teBuf[i];  // ’Ç‰Á
+					teBufBest[teNumBest++] = teBuf[i];  // è¿½åŠ 
 					// printf("info string Priority:2 %s:%2x%2x\n",komaStr2[teBuf[i].koma],teBuf[i].from,teBuf[i].to);
 				}
 			}
 		}
 	}
-	for(int j=0;j<numNO;j++) {  // ‚Ó‚Â‚¤ -> OK ‚È‚ç ’Ç‰Á  // —Dæ‡ˆÊ:3
+	for(int j=0;j<numNO;j++) {  // ãµã¤ã† -> OK ãªã‚‰ è¿½åŠ   // å„ªå…ˆé †ä½:3
 		for(int i=0;i<teNum;i++) {
-			if(teBuf[i].to==NO[j].pos && NO[j].no==1 && teBuf[i].koma==NO[j].koma) {  // N0‚ÌOK ‚ª teBuf‚Ìto ‚Æ‡’v
+			if(teBuf[i].to==NO[j].pos && NO[j].no==1 && teBuf[i].koma==NO[j].koma) {  // N0ã®OK ãŒ teBufã®to ã¨åˆè‡´
 				int flg = 1;
 				for(int k=0;k<numNO;k++) {
-					if(teBuf[i].from==NO[k].pos && teBuf[i].koma==NO[k].koma) {  // teBuf‚Ìfrom ‚ª NO‚ÌOK‚à‚µ‚­‚ÍNG ‚Æ‡’v
+					if(teBuf[i].from==NO[k].pos && teBuf[i].koma==NO[k].koma) {  // teBufã®from ãŒ NOã®OKã‚‚ã—ãã¯NG ã¨åˆè‡´
 						flg = 0;
 					}
 				}
 				if(flg==1) {
-					teBufBest[teNumBest++] = teBuf[i];  // ’Ç‰Á
+					teBufBest[teNumBest++] = teBuf[i];  // è¿½åŠ 
 					// printf("info string Priority:3 %s:%2x%2x\n",komaStr2[teBuf[i].koma],teBuf[i].from,teBuf[i].to);
 				}
 			}
 		}
 	}
-	for(int j=0;j<numNO;j++) {  // OK -> OK ‚È‚ç ’Ç‰Á  // —Dæ‡ˆÊ:4
+	for(int j=0;j<numNO;j++) {  // OK -> OK ãªã‚‰ è¿½åŠ   // å„ªå…ˆé †ä½:4
 		for(int i=0;i<teNum;i++) {
-			if(teBuf[i].from==NO[j].pos && NO[j].no==1 && teBuf[i].koma==NO[j].koma) {  // NO‚ÌOK ‚ª teBuf‚Ìfrom ‚Æ‡’v
+			if(teBuf[i].from==NO[j].pos && NO[j].no==1 && teBuf[i].koma==NO[j].koma) {  // NOã®OK ãŒ teBufã®from ã¨åˆè‡´
 				for(int k=0;k<numNO;k++) {
-					if(teBuf[i].to==NO[k].pos && NO[k].no==1 && teBuf[i].koma==NO[k].koma) {  // teBuf‚Ìto ‚ª NO‚ÌOK ‚Æ‡’v
-						teBufBest[teNumBest++] = teBuf[i];  // ’Ç‰Á
+					if(teBuf[i].to==NO[k].pos && NO[k].no==1 && teBuf[i].koma==NO[k].koma) {  // teBufã®to ãŒ NOã®OK ã¨åˆè‡´
+						teBufBest[teNumBest++] = teBuf[i];  // è¿½åŠ 
 						// printf("info string Priority:4 %s:%2x%2x\n",komaStr2[teBuf[i].koma],teBuf[i].from,teBuf[i].to);
 					}
 				}
 			}
 		}
 	}
-	for(int i=0;i<teNum;i++) {  // ‚Ó‚Â‚¤ -> ‚Ó‚Â‚¤ ‚È‚ç ’Ç‰Á  // —Dæ‡ˆÊ:5
+	for(int i=0;i<teNum;i++) {  // ãµã¤ã† -> ãµã¤ã† ãªã‚‰ è¿½åŠ   // å„ªå…ˆé †ä½:5
 		int flg = 1;
 		for(int j=0;j<numNO;j++) {
-			if(teBuf[i].from==NO[j].pos && teBuf[i].koma==NO[j].koma) {  // teBuf‚Ìfrom ‚ª NO‚ÌOK‚à‚µ‚­‚ÍNG ‚Æ‡’v
+			if(teBuf[i].from==NO[j].pos && teBuf[i].koma==NO[j].koma) {  // teBufã®from ãŒ NOã®OKã‚‚ã—ãã¯NG ã¨åˆè‡´
 				flg = 0;
 			}
 		}
 		for(int k=0;k<numNO;k++) {
-			if(teBuf[i].to==NO[k].pos && teBuf[i].koma==NO[k].koma) {  // teBuf‚Ìto ‚ª NO‚ÌOK‚à‚µ‚­‚ÍNG ‚Æ‡’v
+			if(teBuf[i].to==NO[k].pos && teBuf[i].koma==NO[k].koma) {  // teBufã®to ãŒ NOã®OKã‚‚ã—ãã¯NG ã¨åˆè‡´
 				flg = 0;
 			}
 		}
 		if(flg==1) {
-			teBufBest[teNumBest++] = teBuf[i];  // ’Ç‰Á
+			teBufBest[teNumBest++] = teBuf[i];  // è¿½åŠ 
 			// printf("info string Priority:5 %s:%2x%2x\n",komaStr2[teBuf[i].koma],teBuf[i].from,teBuf[i].to);
 		}
 	}

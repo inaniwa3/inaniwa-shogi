@@ -1,4 +1,4 @@
-#include <stdio.h>
+ï»¿#include <stdio.h>
 #include <string.h>
 #include <sys/time.h>
 #include <algorithm>
@@ -8,11 +8,11 @@
 
 using namespace std;
 
-// Windows‚ÉŒÅ—L‚ÌŠÖ”‚ğLinux‚Åg‚¦‚é‚æ‚¤‚ÉÀ‘•‚µ‚½B
+// Windowsã«å›ºæœ‰ã®é–¢æ•°ã‚’Linuxã§ä½¿ãˆã‚‹ã‚ˆã†ã«å®Ÿè£…ã—ãŸã€‚
 
-// Œ»İ‚ğƒ~ƒŠ•b’PˆÊ‚Åæ“¾‚·‚éB
-// tv.tv_sec * 1000‚Ì’l‚ªƒI[ƒo[ƒtƒ[‚µ‚Ä‚µ‚Ü‚¤‚ªA‚Æ‚Ì·‚ğæ‚é‚æ‚¤‚È
-// g‚¢•û‚ğ‚·‚é‚È‚ç–â‘è‚Í‚È‚¢‚Í‚¸B
+// ç¾åœ¨æ™‚åˆ»ã‚’ãƒŸãƒªç§’å˜ä½ã§å–å¾—ã™ã‚‹ã€‚
+// tv.tv_sec * 1000ã®å€¤ãŒã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ã—ã¦ã—ã¾ã†ãŒã€æ™‚åˆ»ã¨æ™‚åˆ»ã®å·®ã‚’å–ã‚‹ã‚ˆã†ãª
+// ä½¿ã„æ–¹ã‚’ã™ã‚‹ãªã‚‰å•é¡Œã¯ãªã„ã¯ãšã€‚
 unsigned long timeGetTime()
 {
 	struct timeval tv;
@@ -21,17 +21,17 @@ unsigned long timeGetTime()
 	return currTime;
 }
 
-// ‰Šúİ’èƒtƒ@ƒCƒ‹‚©‚çƒL[‚É‘Î‰‚µ‚½•¶š—ñ‚ğæ“¾‚·‚éB
-// ‚±‚ÌÀ‘•‚Å‚ÍlpAppNameiƒZƒNƒVƒ‡ƒ“–¼j‚ğg—p‚µ‚Ä‚¢‚È‚¢‚ªAWindows‚Åg‚¤‚Æ‚«‚Í
-// •K‚¸w’è‚·‚é•K—v‚ª‚ ‚é‚±‚Æ‚É’ˆÓB
+// åˆæœŸè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã‚­ãƒ¼ã«å¯¾å¿œã—ãŸæ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹ã€‚
+// ã“ã®å®Ÿè£…ã§ã¯lpAppNameï¼ˆã‚»ã‚¯ã‚·ãƒ§ãƒ³åï¼‰ã‚’ä½¿ç”¨ã—ã¦ã„ãªã„ãŒã€Windowsã§ä½¿ã†ã¨ãã¯
+// å¿…ãšæŒ‡å®šã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã“ã¨ã«æ³¨æ„ã€‚
 unsigned long GetPrivateProfileString
 (
-	const char* /* lpAppName */,	// ƒZƒNƒVƒ‡ƒ“–¼i–¢g—pj
-	const char* lpKeyName,	// ƒL[‚Ì–¼‘O
-	const char* lpDefault,	// ƒL[‚ª‘¶İ‚µ‚È‚¢ê‡‚Ég‚¤ƒfƒtƒHƒ‹ƒg‚Ì•¶š—ñ
-	char* lpReturnedString,	// ƒRƒs[æ‚Ìƒoƒbƒtƒ@
-	unsigned long nSize,	// ƒoƒbƒtƒ@‚ÌƒTƒCƒY
-	const char* lpFileName	// ‰Šúİ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX–¼
+	const char* /* lpAppName */,	// ã‚»ã‚¯ã‚·ãƒ§ãƒ³åï¼ˆæœªä½¿ç”¨ï¼‰
+	const char* lpKeyName,	// ã‚­ãƒ¼ã®åå‰
+	const char* lpDefault,	// ã‚­ãƒ¼ãŒå­˜åœ¨ã—ãªã„å ´åˆã«ä½¿ã†ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®æ–‡å­—åˆ—
+	char* lpReturnedString,	// ã‚³ãƒ”ãƒ¼å…ˆã®ãƒãƒƒãƒ•ã‚¡
+	unsigned long nSize,	// ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚º
+	const char* lpFileName	// åˆæœŸè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹å
 )
 {
 	if (lpKeyName == NULL || lpDefault == NULL || lpReturnedString == NULL || lpFileName == NULL) {
@@ -40,7 +40,7 @@ unsigned long GetPrivateProfileString
 	if (strlen(lpKeyName) == 0 || strlen(lpFileName) == 0) {
 		return 0;
 	}
-	// Å‰‚ÉƒfƒtƒHƒ‹ƒg‚Ì•¶š—ñ‚ğƒRƒs[‚·‚éB
+	// æœ€åˆã«ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®æ–‡å­—åˆ—ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ã€‚
 	unsigned long len = min((unsigned long)strlen(lpDefault), nSize - 1);
 	strncpy(lpReturnedString, lpDefault, len);
 	lpReturnedString[len] = 0;
@@ -58,7 +58,7 @@ unsigned long GetPrivateProfileString
 			continue;
 		}
 		if (line.find(keyStr) == 0) {
-			// ƒL[‚©‚çn‚Ü‚és‚ªŒ©‚Â‚©‚Á‚½‚çA‚»‚Ì’l‚ğæ“¾‚·‚éB
+			// ã‚­ãƒ¼ã‹ã‚‰å§‹ã¾ã‚‹è¡ŒãŒè¦‹ã¤ã‹ã£ãŸã‚‰ã€ãã®å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
 			string val = line.substr(keyStr.length());
 			len = min((unsigned long)strlen(val.c_str()), nSize - 1);
 			strncpy(lpReturnedString, val.c_str(), len);
@@ -69,15 +69,15 @@ unsigned long GetPrivateProfileString
 	return len;
 }
 
-// ‰Šúİ’èƒtƒ@ƒCƒ‹‚ÉƒL[‚Æ‘Î‰‚·‚é•¶š—ñ‚ğ•Û‘¶‚·‚éB
-// ‚±‚ÌÀ‘•‚Å‚ÍlpAppNameiƒZƒNƒVƒ‡ƒ“–¼j‚ğg—p‚µ‚Ä‚¢‚È‚¢‚ªAWindows‚Åg‚¤‚Æ‚«‚Í
-// •K‚¸w’è‚·‚é•K—v‚ª‚ ‚é‚±‚Æ‚É’ˆÓB
+// åˆæœŸè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚­ãƒ¼ã¨å¯¾å¿œã™ã‚‹æ–‡å­—åˆ—ã‚’ä¿å­˜ã™ã‚‹ã€‚
+// ã“ã®å®Ÿè£…ã§ã¯lpAppNameï¼ˆã‚»ã‚¯ã‚·ãƒ§ãƒ³åï¼‰ã‚’ä½¿ç”¨ã—ã¦ã„ãªã„ãŒã€Windowsã§ä½¿ã†ã¨ãã¯
+// å¿…ãšæŒ‡å®šã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã“ã¨ã«æ³¨æ„ã€‚
 bool WritePrivateProfileString
 (
-	const char* /* lpAppName */,	// ƒZƒNƒVƒ‡ƒ“–¼i–¢g—pj
-	const char* lpKeyName,	// ƒL[‚Ì–¼‘O
-	const char* lpString,	// ƒL[‚É‘Î‰‚·‚é•¶š—ñ
-	const char* lpFileName	// ‰Šúİ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX–¼
+	const char* /* lpAppName */,	// ã‚»ã‚¯ã‚·ãƒ§ãƒ³åï¼ˆæœªä½¿ç”¨ï¼‰
+	const char* lpKeyName,	// ã‚­ãƒ¼ã®åå‰
+	const char* lpString,	// ã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹æ–‡å­—åˆ—
+	const char* lpFileName	// åˆæœŸè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹å
 )
 {
 	if (lpKeyName == NULL || lpString == NULL || lpFileName == NULL) {
@@ -87,15 +87,15 @@ bool WritePrivateProfileString
 		return false;
 	}
 
-	// XV‚·‚és‚ğì¬‚µ‚Ä‚¨‚­B
+	// æ›´æ–°ã™ã‚‹è¡Œã‚’ä½œæˆã—ã¦ãŠãã€‚
 	string keyStr = lpKeyName;
 	keyStr += "=";
 	string valStr = lpString;
 	string newLine = keyStr + valStr;
 
-	vector<string> lineVector; // ƒtƒ@ƒCƒ‹‚Ìs‚ğ•Û‘¶‚·‚é‚½‚ß‚ÌVector
+	vector<string> lineVector; // ãƒ•ã‚¡ã‚¤ãƒ«ã®è¡Œã‚’ä¿å­˜ã™ã‚‹ãŸã‚ã®Vector
 	bool keyFound = false;
-	{	// ƒtƒ@ƒCƒ‹‚É‘‚«‚Ş‘O‚Éifstream‚ÌƒfƒXƒgƒ‰ƒNƒ^‚ªŒÄ‚Î‚ê‚é‚æ‚¤AƒuƒŒ[ƒX‚ÅˆÍ‚Á‚Ä‚¨‚­B
+	{	// ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã‚€å‰ã«ifstreamã®ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒå‘¼ã°ã‚Œã‚‹ã‚ˆã†ã€ãƒ–ãƒ¬ãƒ¼ã‚¹ã§å›²ã£ã¦ãŠãã€‚
 		ifstream ifs(lpFileName);
 		if (!ifs.fail()) {
 			while (!ifs.eof()) {
@@ -106,7 +106,7 @@ bool WritePrivateProfileString
 				}
 				if (line.find(keyStr) == 0) {
 					if (!keyFound) {
-						// ƒL[‚©‚çn‚Ü‚és‚ªŒ©‚Â‚©‚Á‚½‚çA‚»‚Ìs‚ğ’u‚«Š·‚¦‚éB
+						// ã‚­ãƒ¼ã‹ã‚‰å§‹ã¾ã‚‹è¡ŒãŒè¦‹ã¤ã‹ã£ãŸã‚‰ã€ãã®è¡Œã‚’ç½®ãæ›ãˆã‚‹ã€‚
 						lineVector.push_back(newLine);
 						keyFound = true;
 					}

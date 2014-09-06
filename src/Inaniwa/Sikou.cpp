@@ -1,4 +1,4 @@
-#ifdef _WIN32
+ï»¿#ifdef _WIN32
 #include <windows.h>
 #else
 #include "WinAPI.h"
@@ -14,13 +14,13 @@ using namespace std;
 
 HashEntry Sikou::HashTbl[1024*1024];
 
-extern bool isStopReceived; // stopƒRƒ}ƒ“ƒh‚ğóM‚µ‚½‚©
-extern bool canPonder; // æ“Ç‚İ‰Â”\‚©
-extern bool canThrow; // vl’†’f‚ª‰Â”\‚©‚Ç‚¤‚©
-extern unsigned long thinkStartTime; // vlŠJn
-extern unsigned long evaluatedNodes; // KyokumenKomagumi::Evaluate()‚ªŒÄ‚Î‚ê‚½‰ñ”
-extern unsigned long hashCount; // ƒnƒbƒVƒ…‚É’Ç‰Á‚³‚ê‚½”
-extern int thinkDepthMax; // “Ç‚İ‚ÌÅ‘å[‚³B’Êí‚Í4‚¾‚ªAgo infinite‚Åvl‚·‚éê‡‚¾‚¯8‚É‚·‚éB
+extern bool isStopReceived; // stopã‚³ãƒãƒ³ãƒ‰ã‚’å—ä¿¡ã—ãŸã‹
+extern bool canPonder; // å…ˆèª­ã¿å¯èƒ½ã‹
+extern bool canThrow; // æ€è€ƒä¸­æ–­ãŒå¯èƒ½ã‹ã©ã†ã‹
+extern unsigned long thinkStartTime; // æ€è€ƒé–‹å§‹æ™‚åˆ»
+extern unsigned long evaluatedNodes; // KyokumenKomagumi::Evaluate()ãŒå‘¼ã°ã‚ŒãŸå›æ•°
+extern unsigned long hashCount; // ãƒãƒƒã‚·ãƒ¥ã«è¿½åŠ ã•ã‚ŒãŸæ•°
+extern int thinkDepthMax; // èª­ã¿ã®æœ€å¤§æ·±ã•ã€‚é€šå¸¸ã¯4ã ãŒã€go infiniteã§æ€è€ƒã™ã‚‹å ´åˆã ã‘8ã«ã™ã‚‹ã€‚
 extern int InaniwaTimeTesu; //ina//
 
 int itDeepCount = 0;
@@ -40,11 +40,11 @@ int Sikou::MakeMoveFirst(int SorE,int depth,Te teBuf[],KyokumenKomagumi k)
 		return 0;
 	}
 	if (HashTbl[k.HashVal & 0xfffff].Tesu%2!=k.Tesu%2) {
-		// è”Ô‚ªˆá‚¤B
+		// æ‰‹ç•ªãŒé•ã†ã€‚
 		return 0;
 	}
 
-	// ‹Ç–Ê‚ªˆê’v‚µ‚½‚Æv‚í‚ê‚é
+	// å±€é¢ãŒä¸€è‡´ã—ãŸã¨æ€ã‚ã‚Œã‚‹
 	Te te=HashTbl[k.HashVal & 0xfffff].Best;
 	if (!te.IsNull()) {
 		if (k.IsLegalMove(SorE,te)) {
@@ -66,20 +66,20 @@ int Sikou::MakeMoveFirst(int SorE,int depth,Te teBuf[],KyokumenKomagumi k)
 	return teNum;
 }
 
-Te Stack[32];	// 32‚ÆŒ¾‚¤”š‚Í“K“–BÅ‘å[‚³‚ª‚±‚Ì’ö“x‚Ü‚Å‚µ‚©s‚©‚È‚¢‚±‚Æ‚ğŠú‘Ò‚µ‚Ä‚¢‚éB
+Te Stack[32];	// 32ã¨è¨€ã†æ•°å­—ã¯é©å½“ã€‚æœ€å¤§æ·±ã•ãŒã“ã®ç¨‹åº¦ã¾ã§ã—ã‹è¡Œã‹ãªã„ã“ã¨ã‚’æœŸå¾…ã—ã¦ã„ã‚‹ã€‚
 
-// ‘æ‚SÍ‚Å’Ç‰ÁBƒ¿ƒÀ–@‚É‚æ‚é’TõB
-// ¡Œã‚ÍA‚±‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚ğŠî–{‚Éi‚ß‚Ä‚¢‚­B
+// ç¬¬ï¼”ç« ã§è¿½åŠ ã€‚Î±Î²æ³•ã«ã‚ˆã‚‹æ¢ç´¢ã€‚
+// ä»Šå¾Œã¯ã€ã“ã®ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã‚’åŸºæœ¬ã«é€²ã‚ã¦ã„ãã€‚
 int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int depth,int depthMax,bool bITDeep)
 {
-	canThrow = depth > 1; // depth‚ª1‚¾‚ÆŒ»İ‚ÌÅ‘Pè‚ªŠm’è‚µ‚Ä‚¢‚È‚¢‚Ì‚ÅAthrow‰Â”\‚È‚Ì‚Ídepth‚ª2ˆÈã‚É‚È‚Á‚Ä‚©‚çB
+	canThrow = depth > 1; // depthãŒ1ã ã¨ç¾åœ¨ã®æœ€å–„æ‰‹ãŒç¢ºå®šã—ã¦ã„ãªã„ã®ã§ã€throwå¯èƒ½ãªã®ã¯depthãŒ2ä»¥ä¸Šã«ãªã£ã¦ã‹ã‚‰ã€‚
 	if (isStopReceived) {
 		if (canThrow) {
-			throw 0; // –ß‚èæ‚ÍSikou::ITDeep()
+			throw 0; // æˆ»ã‚Šå…ˆã¯Sikou::ITDeep()
 		}
 	}
 	if (depth==1) {
-		// ç“úèƒ`ƒFƒbƒN
+		// åƒæ—¥æ‰‹ãƒã‚§ãƒƒã‚¯
 		int sennitite=0;
 		for(int i=k.Tesu;i>0;i-=2) {
 			if (k.HashHistory[i]==k.HashVal) {
@@ -87,9 +87,9 @@ int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int dep
 			}
 		}
 		if (sennitite>=4) {
-			// ç“úè
+			// åƒæ—¥æ‰‹
 			sennitite=0;
-			// ˜A‘±‰¤è‚Ìç“úèƒ`ƒFƒbƒN
+			// é€£ç¶šç‹æ‰‹ã®åƒæ—¥æ‰‹ãƒã‚§ãƒƒã‚¯
 			int i;
 			for(i=k.Tesu;sennitite<=3&&i>0;i-=2) {
 				if (!Kyokumen::OuteHistory[i]) {
@@ -100,7 +100,7 @@ int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int dep
 				}
 			}
 			if (sennitite==4) {
-				// ˜A‘±‰¤è‚Ìç“úè‚ğ‚©‚¯‚ç‚ê‚Ä‚¢‚é
+				// é€£ç¶šç‹æ‰‹ã®åƒæ—¥æ‰‹ã‚’ã‹ã‘ã‚‰ã‚Œã¦ã„ã‚‹
 				return INFINITEVAL;
 			}
 			sennitite=0;
@@ -113,7 +113,7 @@ int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int dep
 				}
 			}
 			if (sennitite==4) {
-				// ˜A‘±‰¤è‚Ìç“úè‚ğ‚©‚¯‚Ä‚¢‚é
+				// é€£ç¶šç‹æ‰‹ã®åƒæ—¥æ‰‹ã‚’ã‹ã‘ã¦ã„ã‚‹
 				return -INFINITEVAL;
 			}
 			return 0;
@@ -122,7 +122,7 @@ int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int dep
 //ina// 	if (depth==depthMax) {
 	if (depth>=depthMax) { //ina//
 		int value=k.Evaluate()+k.BestEval(SorE);
-		// ©•ª‚Ìè”Ô‚©‚çŒ©‚½“¾“_‚ğ•Ô‚·
+		// è‡ªåˆ†ã®æ‰‹ç•ªã‹ã‚‰è¦‹ãŸå¾—ç‚¹ã‚’è¿”ã™
 		if (SorE==SELF) {
 			return value;
 		} else {
@@ -138,14 +138,14 @@ int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int dep
 			return e.value;
 		}
 	} else if (depthMax-depth>2 && bITDeep) {
-		// ‰‚ß‚Ä–K‚ê‚½‹Ç–Ê‚ÅA[‚³‚àc‚Á‚Ä‚¢‚é‚Ì‚Å‘½d”½•œ[‰»‚ğs‚¤B
+		// åˆã‚ã¦è¨ªã‚ŒãŸå±€é¢ã§ã€æ·±ã•ã‚‚æ®‹ã£ã¦ã„ã‚‹ã®ã§å¤šé‡åå¾©æ·±åŒ–ã‚’è¡Œã†ã€‚
 		return ITDeep(SorE,k,alpha,beta,depth,depthMax);
 	}
 	Te teBuf[600];
 	int retval=-INFINITEVAL-1;
 
 	try {
-		if (depth<1 && k.Mate(SorE,7,teBuf[0])==1) { // ‹l‚İ‚ğ’Tõ‚·‚é‚Ì‚Í‰è‚¾‚¯‚É•ÏXB
+		if (depth<1 && k.Mate(SorE,7,teBuf[0])==1) { // è©°ã¿ã‚’æ¢ç´¢ã™ã‚‹ã®ã¯åˆæ‰‹ã ã‘ã«å¤‰æ›´ã€‚
 			Best[depth][depth]=teBuf[0];
 			Best[depth][depth+1]=Te(0);
 			retval=INFINITEVAL+1;
@@ -178,8 +178,8 @@ int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int dep
 		}
 #endif
 		int v=-NegaAlphaBeta(SorE==SELF?ENEMY:SELF,kk,-beta,-max(alpha,retval),depth+1,depthMax);
-		// w‚µè‚Ì•]‰¿‚ªƒ}ƒCƒiƒX‚Ìè‚ª’¼‘O‚Éw‚³‚ê‚Ä‚¢‚ÄA‚»‚ê‚ğæ‚éè‚ªƒ¿’l‚ğXV‚µ‚È‚¢‚æ‚¤‚È‚çA
-		// “Ç‚İ‚ğ[‚­‚µ‚Ä“Ç‚İ’¼‚·
+		// æŒ‡ã—æ‰‹ã®è©•ä¾¡ãŒãƒã‚¤ãƒŠã‚¹ã®æ‰‹ãŒç›´å‰ã«æŒ‡ã•ã‚Œã¦ã„ã¦ã€ãã‚Œã‚’å–ã‚‹æ‰‹ãŒÎ±å€¤ã‚’æ›´æ–°ã—ãªã„ã‚ˆã†ãªã‚‰ã€
+		// èª­ã¿ã‚’æ·±ãã—ã¦èª­ã¿ç›´ã™
 		if (depth>1 && Stack[depth-1].value<0 && Stack[depth-1].to==Stack[depth].to && v<=retval) {
 			v=-NegaAlphaBeta(SorE==SELF?ENEMY:SELF,kk,-beta,-max(alpha,retval),depth+1,depthMax+2);
 		}
@@ -195,15 +195,15 @@ int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int dep
 				printf("info ");
 				printf("time %lu ",diffTime);
 				printf("depth %d ",depthMax);
-				//printf("seldepth %d ", 7); // seldepth‚Ìg‚¢•û‚Ì—áB
+				//printf("seldepth %d ", 7); // seldepthã®ä½¿ã„æ–¹ã®ä¾‹ã€‚
 				printf("nodes %lu ",evaluatedNodes);
 				if (retval == INFINITEVAL+1) {
 					printf("score mate +");
-					//printf("%d ", tesu); // –{“–‚Í‚±‚±‚Åè”‚ğ•\¦‚·‚é•K—v‚ª‚ ‚é
+					//printf("%d ", tesu); // æœ¬å½“ã¯ã“ã“ã§æ‰‹æ•°ã‚’è¡¨ç¤ºã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 					printf(" ");
 				} else if (retval == -INFINITEVAL) {
 					printf("score mate -");
-					//printf("%d ", tesu); // –{“–‚Í‚±‚±‚Åè”‚ğ•\¦‚·‚é•K—v‚ª‚ ‚é
+					//printf("%d ", tesu); // æœ¬å½“ã¯ã“ã“ã§æ‰‹æ•°ã‚’è¡¨ç¤ºã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 					printf(" ");
 				} else {
 					printf("score cp %d ",retval);
@@ -227,7 +227,7 @@ int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int dep
 	}
 	teNum=k.MakeLegalMoves(SorE,teBuf);
 	if (teNum==0) {
-		// •‰‚¯
+		// è² ã‘
 		return -INFINITEVAL;
 	}
 	k.EvaluateTe(SorE,teNum,teBuf);
@@ -240,8 +240,8 @@ int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int dep
 		Stack[depth]=teBuf[i];
 		kk.Move(SorE,teBuf[i]);
 		int v=-NegaAlphaBeta(SorE==SELF?ENEMY:SELF,kk,-beta,-max(alpha,retval),depth+1,depthMax);
-		// w‚µè‚Ì•]‰¿‚ªƒ}ƒCƒiƒX‚Ìè‚ª’¼‘O‚Éw‚³‚ê‚Ä‚¢‚ÄA‚»‚ê‚ğæ‚éè‚ªƒ¿’l‚ğXV‚µ‚È‚¢‚æ‚¤‚È‚çA
-		// “Ç‚İ‚ğ[‚­‚µ‚Ä“Ç‚İ’¼‚·
+		// æŒ‡ã—æ‰‹ã®è©•ä¾¡ãŒãƒã‚¤ãƒŠã‚¹ã®æ‰‹ãŒç›´å‰ã«æŒ‡ã•ã‚Œã¦ã„ã¦ã€ãã‚Œã‚’å–ã‚‹æ‰‹ãŒÎ±å€¤ã‚’æ›´æ–°ã—ãªã„ã‚ˆã†ãªã‚‰ã€
+		// èª­ã¿ã‚’æ·±ãã—ã¦èª­ã¿ç›´ã™
 		if (depth>1 && Stack[depth-1].value<0 && Stack[depth-1].to==Stack[depth].to && v<=beta) {
 			v=-NegaAlphaBeta(SorE==SELF?ENEMY:SELF,kk,-beta,-max(alpha,retval),depth+1,depthMax+2);
 		}
@@ -257,16 +257,16 @@ int Sikou::NegaAlphaBeta(int SorE,KyokumenKomagumi &k,int alpha,int beta,int dep
 				printf("info ");
 				printf("time %lu ",diffTime);
 				printf("depth %d ",depthMax);
-				//printf("seldepth %d ", 7); // seldepth‚Ìg‚¢•û‚Ì—áB
+				//printf("seldepth %d ", 7); // seldepthã®ä½¿ã„æ–¹ã®ä¾‹ã€‚
 				printf("nodes %lu ",evaluatedNodes);
 				//int tesu = 3;
 				if (retval == INFINITEVAL+1) {
 					printf("score mate +");
-					//printf("%d ", tesu); // –{“–‚Í‚±‚±‚Åè”‚ğ•\¦‚·‚é•K—v‚ª‚ ‚é
+					//printf("%d ", tesu); // æœ¬å½“ã¯ã“ã“ã§æ‰‹æ•°ã‚’è¡¨ç¤ºã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 					printf(" ");
 				} else if (retval == -INFINITEVAL) {
 					printf("score mate -");
-					//printf("%d ", tesu); // –{“–‚Í‚±‚±‚Åè”‚ğ•\¦‚·‚é•K—v‚ª‚ ‚é
+					//printf("%d ", tesu); // æœ¬å½“ã¯ã“ã“ã§æ‰‹æ•°ã‚’è¡¨ç¤ºã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 					printf(" ");
 				} else {
 					printf("score cp %d ",retval);
@@ -295,7 +295,7 @@ HashAdd:
 		e.Second=e.Best;
 	} else {
 		if (e.Tesu-e.depth==k.Tesu-depth && e.remainDepth>depthMax-depth) {
-			// ƒnƒbƒVƒ…‚É‚ ‚éƒf[ƒ^‚Ì•û‚ªd—v‚È‚Ì‚Åã‘‚«‚µ‚È‚¢
+			// ãƒãƒƒã‚·ãƒ¥ã«ã‚ã‚‹ãƒ‡ãƒ¼ã‚¿ã®æ–¹ãŒé‡è¦ãªã®ã§ä¸Šæ›¸ãã—ãªã„
 			if (depth==0) {
 				k.Print();
 				Best[depth][depth].Print();
@@ -348,12 +348,12 @@ int Sikou::ITDeep(int SorE,KyokumenKomagumi &k,int alpha,int beta,int depth,int 
 	return retval;
 }
 
-//Joseki joseki(".\\public.bin"); // ‚¤‚³‚Ò‚å‚ñ‚Ì’èÕƒtƒ@ƒCƒ‹–¼
+//Joseki joseki(".\\public.bin"); // ã†ã•ã´ã‚‡ã‚“ã®å®šè·¡ãƒ•ã‚¡ã‚¤ãƒ«å
 auto_ptr<Joseki> joseki;
 Kyokumen *shoki = NULL;
 
 
-// –{Ši“I‚Éæ“Ç‚İ‚ğ‚·‚évlƒ‹[ƒ`ƒ“‚É‚È‚è‚Ü‚µ‚½B
+// æœ¬æ ¼çš„ã«å…ˆèª­ã¿ã‚’ã™ã‚‹æ€è€ƒãƒ«ãƒ¼ãƒãƒ³ã«ãªã‚Šã¾ã—ãŸã€‚
 Te Sikou::Think(int SorE,KyokumenKomagumi k, bool isUseJoseki, Te* ponderTe)
 {
 	if(k.Tesu <= InaniwaTimeTesu) {   //ina//
@@ -366,12 +366,12 @@ Te Sikou::Think(int SorE,KyokumenKomagumi k, bool isUseJoseki, Te* ponderTe)
 	int i,j;
 	Te nullTe(0);
 	*ponderTe = nullTe;
-	if (isUseJoseki) { // ”CˆÓ‹Ç–Ê‚©‚çn‚ß‚½ê‡‚Í’èÕ‚ğg‚í‚È‚¢‚±‚Æ‚É‚·‚éB
+	if (isUseJoseki) { // ä»»æ„å±€é¢ã‹ã‚‰å§‹ã‚ãŸå ´åˆã¯å®šè·¡ã‚’ä½¿ã‚ãªã„ã“ã¨ã«ã™ã‚‹ã€‚
 		joseki->fromJoseki(*shoki,SELF,k,k.Tesu,teNum,teBuf,hindo);
 		if (teNum>0) {
 #if 0
 			int max,maxhindo;
-			// ˆê”Ô•p“x‚Ì‚‚¢’èÕ‚ğ‘I‚ÔB
+			// ä¸€ç•ªé »åº¦ã®é«˜ã„å®šè·¡ã‚’é¸ã¶ã€‚
 			max=0;
 			maxhindo=hindo[max];
 			for(i=1;i<teNum;i++) {
@@ -382,7 +382,7 @@ Te Sikou::Think(int SorE,KyokumenKomagumi k, bool isUseJoseki, Te* ponderTe)
 			}
 			return teBuf[max];
 #else
-			// ’èÕ‚ğƒ‰ƒ“ƒ_ƒ€‚É‘I‚Ñ‚½‚¢‚È‚ç‚±‚¿‚ç‚É‚·‚é
+			// å®šè·¡ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«é¸ã³ãŸã„ãªã‚‰ã“ã¡ã‚‰ã«ã™ã‚‹
 			int sumHind = 0;
 			for (i = 0; i < teNum; i++) {
 				sumHind += hindo[i];
@@ -396,18 +396,18 @@ Te Sikou::Think(int SorE,KyokumenKomagumi k, bool isUseJoseki, Te* ponderTe)
 					return teBuf[i];
 				}
 			}
-			return teBuf[0]; // ‚±‚±‚É‚Í—ˆ‚È‚¢‚Í‚¸‚¾‚ª”O‚Ì‚½‚ßB
+			return teBuf[0]; // ã“ã“ã«ã¯æ¥ãªã„ã¯ãšã ãŒå¿µã®ãŸã‚ã€‚
 #endif
 		}
 	}
 
-	// info‚Å•Ô‚·î•ñ‚Ì‰Šú‰»B
+	// infoã§è¿”ã™æƒ…å ±ã®åˆæœŸåŒ–ã€‚
 	thinkStartTime = timeGetTime();
 	evaluatedNodes = 0;
 
-	// depthMax‚Í“K“–‚Éc‚èŠÔ‚É‡‚í‚¹‚Ä’²®‚·‚é‚È‚Ç‚ÌH•v‚ª•K—v‚Å‚·B
-	//int depthMax=8; // 4‚©‚ç8‚É•ÏXB
-	int depthMax = thinkDepthMax; // ’Êí‚Í4‚ÅAgo infinite‚È‚ç8
+	// depthMaxã¯é©å½“ã«æ®‹ã‚Šæ™‚é–“ã«åˆã‚ã›ã¦èª¿æ•´ã™ã‚‹ãªã©ã®å·¥å¤«ãŒå¿…è¦ã§ã™ã€‚
+	//int depthMax=8; // 4ã‹ã‚‰8ã«å¤‰æ›´ã€‚
+	int depthMax = thinkDepthMax; // é€šå¸¸ã¯4ã§ã€go infiniteãªã‚‰8
 	for(i=0;i<MAX_DEPTH;i++) {
 		for(j=0;j<MAX_DEPTH;j++) {
 			Best[i][j]=Te(0);
@@ -424,11 +424,11 @@ Te Sikou::Think(int SorE,KyokumenKomagumi k, bool isUseJoseki, Te* ponderTe)
 	//int tesu = 3;
 	if (bestVal == INFINITEVAL+1) {
 		printf("score mate +");
-		//printf("%d ", tesu); // –{“–‚Í‚±‚±‚Åè”‚ğ•\¦‚·‚é•K—v‚ª‚ ‚é
+		//printf("%d ", tesu); // æœ¬å½“ã¯ã“ã“ã§æ‰‹æ•°ã‚’è¡¨ç¤ºã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 		printf(" ");
 	} else if (bestVal == -INFINITEVAL) {
 		printf("score mate -");
-		//printf("%d ", tesu); // –{“–‚Í‚±‚±‚Åè”‚ğ•\¦‚·‚é•K—v‚ª‚ ‚é
+		//printf("%d ", tesu); // æœ¬å½“ã¯ã“ã“ã§æ‰‹æ•°ã‚’è¡¨ç¤ºã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 		printf(" ");
 	} else {
 		printf("score cp %d ",bestVal);

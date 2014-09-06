@@ -1,26 +1,26 @@
-// USI‚É‘Î‰‚·‚é‚½‚ß‚ÌƒOƒ[ƒoƒ‹•Ï”‚ğ’Ç‰Á‚µ‚Ä‚¢‚é‚¤‚¿‚É”‚ª‘‚¦‚Ä‚í‚©‚è‚É‚­‚­‚È‚Á‚½‚Ì‚ÅA
-// ƒOƒ[ƒoƒ‹•Ï”‚Í‘S•”‚±‚Ìƒtƒ@ƒCƒ‹‚Å’è‹`‚·‚é‚±‚Æ‚É‚·‚éB
+ï»¿// USIã«å¯¾å¿œã™ã‚‹ãŸã‚ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã‚’è¿½åŠ ã—ã¦ã„ã‚‹ã†ã¡ã«æ•°ãŒå¢—ãˆã¦ã‚ã‹ã‚Šã«ãããªã£ãŸã®ã§ã€
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã¯å…¨éƒ¨ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã§å®šç¾©ã™ã‚‹ã“ã¨ã«ã™ã‚‹ã€‚
 
 #include "Kyokumen.h" //ina//
 
-bool isStopReceived = false; // stopƒRƒ}ƒ“ƒh‚ğóM‚µ‚½‚©
-bool canPonder = false; // æ“Ç‚İ‰Â”\‚©
-bool canThrow = false; // vl’†’f‚ª‰Â”\‚©‚Ç‚¤‚©
-bool isPonderThink = false; // æ“Ç‚İvl’†‚©
-bool isTsumeThink = false; // ‹l«Šû‰ğ“švl’†‚©
+bool isStopReceived = false; // stopã‚³ãƒãƒ³ãƒ‰ã‚’å—ä¿¡ã—ãŸã‹
+bool canPonder = false; // å…ˆèª­ã¿å¯èƒ½ã‹
+bool canThrow = false; // æ€è€ƒä¸­æ–­ãŒå¯èƒ½ã‹ã©ã†ã‹
+bool isPonderThink = false; // å…ˆèª­ã¿æ€è€ƒä¸­ã‹
+bool isTsumeThink = false; // è©°å°†æ£‹è§£ç­”æ€è€ƒä¸­ã‹
 
-unsigned long thinkStartTime; // vl‚ğŠJn‚µ‚½
-unsigned long ponderhitReceiveTime = 0; // ponderhit‚ğóM‚µ‚½
+unsigned long thinkStartTime; // æ€è€ƒã‚’é–‹å§‹ã—ãŸæ™‚åˆ»
+unsigned long ponderhitReceiveTime = 0; // ponderhitã‚’å—ä¿¡ã—ãŸæ™‚åˆ»
 
-unsigned long evaluatedNodes; // KyokumenKomagumi::Evaluate()‚ªŒÄ‚Î‚ê‚½‰ñ”
-unsigned long hashCount = 0; // ƒnƒbƒVƒ…‚É’Ç‰Á‚³‚ê‚½”
+unsigned long evaluatedNodes; // KyokumenKomagumi::Evaluate()ãŒå‘¼ã°ã‚ŒãŸå›æ•°
+unsigned long hashCount = 0; // ãƒãƒƒã‚·ãƒ¥ã«è¿½åŠ ã•ã‚ŒãŸæ•°
 
-unsigned long remainTime = 0; // c‚èŠÔ
-unsigned long byoyomiTime = 0; // •b“Ç‚İ‚ÌŠÔ
-unsigned long tsumeLimitTime = 0; // ‹l«Šû‰ğ“š‚Ì§ŒÀŠÔ
-bool isInfinite = false; // vlŠÔ‚ª–³§ŒÀ‚©‚Ç‚¤‚©
-//ina// int thinkDepthMax = 4; // “Ç‚İ‚ÌÅ‘å[‚³
-int thinkDepthMax = 5; // “Ç‚İ‚ÌÅ‘å[‚³ //ina//
+unsigned long remainTime = 0; // æ®‹ã‚Šæ™‚é–“
+unsigned long byoyomiTime = 0; // ç§’èª­ã¿ã®æ™‚é–“
+unsigned long tsumeLimitTime = 0; // è©°å°†æ£‹è§£ç­”ã®åˆ¶é™æ™‚é–“
+bool isInfinite = false; // æ€è€ƒæ™‚é–“ãŒç„¡åˆ¶é™ã‹ã©ã†ã‹
+//ina// int thinkDepthMax = 4; // èª­ã¿ã®æœ€å¤§æ·±ã•
+int thinkDepthMax = 5; // èª­ã¿ã®æœ€å¤§æ·±ã• //ina//
 
 int InaniwaTimeTesu;     //ina//
 int InaniwaKomagumiTesu; //ina//

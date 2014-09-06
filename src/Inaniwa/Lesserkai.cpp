@@ -1,4 +1,4 @@
-#ifdef _WIN32
+ï»¿#ifdef _WIN32
 #include <windows.h>
 #include <process.h>
 #else
@@ -20,20 +20,20 @@ using namespace std;
 extern auto_ptr<Joseki> joseki;
 extern Kyokumen *shoki;
 
-extern bool isStopReceived; // stopƒRƒ}ƒ“ƒh‚ğóM‚µ‚½‚©
-extern bool canPonder; // æ“Ç‚İ‰Â”\‚©
-extern bool isPonderThink; // æ“Ç‚İvl’†‚©
-extern bool isTsumeThink; // ‹l«Šû‰ğ“švl’†‚©
-extern unsigned long thinkStartTime; // vl‚ğŠJn‚µ‚½
-extern unsigned long hashCount; // ƒnƒbƒVƒ…‚É’Ç‰Á‚³‚ê‚½”
-extern unsigned long ponderhitReceiveTime; // ponderhit‚ğóM‚µ‚½
-extern bool isInfinite; // vlŠÔ‚ª–³§ŒÀ‚©‚Ç‚¤‚©
-extern int thinkDepthMax; // “Ç‚İ‚ÌÅ‘å[‚³
+extern bool isStopReceived; // stopã‚³ãƒãƒ³ãƒ‰ã‚’å—ä¿¡ã—ãŸã‹
+extern bool canPonder; // å…ˆèª­ã¿å¯èƒ½ã‹
+extern bool isPonderThink; // å…ˆèª­ã¿æ€è€ƒä¸­ã‹
+extern bool isTsumeThink; // è©°å°†æ£‹è§£ç­”æ€è€ƒä¸­ã‹
+extern unsigned long thinkStartTime; // æ€è€ƒã‚’é–‹å§‹ã—ãŸæ™‚åˆ»
+extern unsigned long hashCount; // ãƒãƒƒã‚·ãƒ¥ã«è¿½åŠ ã•ã‚ŒãŸæ•°
+extern unsigned long ponderhitReceiveTime; // ponderhitã‚’å—ä¿¡ã—ãŸæ™‚åˆ»
+extern bool isInfinite; // æ€è€ƒæ™‚é–“ãŒç„¡åˆ¶é™ã‹ã©ã†ã‹
+extern int thinkDepthMax; // èª­ã¿ã®æœ€å¤§æ·±ã•
 extern int InaniwaTimeTesu;     //ina//
 extern int InaniwaKomagumiTesu; //ina//
 extern Te  InaniwaLastTe;       //ina//
 
-// ƒGƒ“ƒWƒ“İ’èƒtƒ@ƒCƒ‹‚ÌƒpƒX
+// ã‚¨ãƒ³ã‚¸ãƒ³è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
 #ifdef _WIN32
 //ina// const char* iniFilePath = ".\\Lesserkai.ini";
 const char* iniFilePath = ".\\inaniwa.ini"; //ina//
@@ -53,14 +53,14 @@ const char* iniFilePath = "./inaniwa.ini";  //ina//
 
 #endif
 
-queue<string> commandQueue; // óM‚µ‚½ƒRƒ}ƒ“ƒh‚ğ’Ç‰Á‚·‚é‚½‚ß‚ÌƒLƒ…[
+queue<string> commandQueue; // å—ä¿¡ã—ãŸã‚³ãƒãƒ³ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ãŸã‚ã®ã‚­ãƒ¥ãƒ¼
 
-CRITICAL_SECTION cs; // ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg
-// commandQueue‚É‘Î‚µ‚ÄAReceiveThread()‚ÆWaitCommand()‚©‚ç
-// “¯‚ÉƒAƒNƒZƒX‚Å‚«‚È‚¢‚æ‚¤AcommandQueue‚ÉƒAƒNƒZƒX‚·‚é•”•ª‚Í
-// ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“‚É‚·‚éB
+CRITICAL_SECTION cs; // ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+// commandQueueã«å¯¾ã—ã¦ã€ReceiveThread()ã¨WaitCommand()ã‹ã‚‰
+// åŒæ™‚ã«ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„ã‚ˆã†ã€commandQueueã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹éƒ¨åˆ†ã¯
+// ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã«ã™ã‚‹ã€‚
 
-// ƒRƒ}ƒ“ƒhóM‚Ì‚½‚ß‚ÌŠÖ”Bvl’†‚Å‚àóM‚Å‚«‚é‚æ‚¤‚ÉAƒXƒŒƒbƒh‚©‚ç‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B
+// ã‚³ãƒãƒ³ãƒ‰å—ä¿¡ã®ãŸã‚ã®é–¢æ•°ã€‚æ€è€ƒä¸­ã§ã‚‚å—ä¿¡ã§ãã‚‹ã‚ˆã†ã«ã€ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰ã“ã®é–¢æ•°ã‚’å‘¼ã³å‡ºã™ã€‚
 #ifdef _WIN32
 void ReceiveThread(void *)
 #else
@@ -70,25 +70,25 @@ void *ReceiveThread(void *)
 	char buf[10000];
 	while (true) {
 		fgets(buf, 10000, stdin);
-		buf[strlen(buf) - 1] = 0; // ‰üsƒR[ƒh‚ğÁ‚·B
+		buf[strlen(buf) - 1] = 0; // æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’æ¶ˆã™ã€‚
 
 		if (strncmp(buf, "quit", strlen("quit")) == 0) {
 			while (commandQueue.size() > 0) {
-				// ƒGƒ“ƒWƒ“İ’èƒ_ƒCƒAƒƒO‚ÅOK‚ğ‰Ÿ‚·‚ÆAsetoption‚Æquit‚ª‘±‚¯‚Ä‘—‚ç‚ê‚Ä‚­‚éB
-				// ‚»‚ÌAsetoption‚Ì“à—e‚ğÀs‚·‚é‘O‚Éexit()‚ğŒÄ‚Î‚È‚¢‚æ‚¤AquitƒRƒ}ƒ“ƒh‚æ‚è
-				// ‘O‚ÉóM‚µ‚½ƒRƒ}ƒ“ƒh‚ª‘S‚ÄÀs‚³‚ê‚Ä‚©‚çI—¹‚·‚é‚æ‚¤‚É‚·‚éB
-				// –{“–‚ÍAcommandQueue‚ÌƒTƒCƒY‚ª0‚¾‚©‚ç‚Æ‚¢‚Á‚ÄA‚»‚êˆÈ‘O‚ÌƒRƒ}ƒ“ƒh‚ª–{“–‚É
-				// Às‚³‚ê‚½‚Æ‚¢‚¤•ÛØ‚Í‚È‚¢‚ªipop‚µ‚½‚¾‚¯‚ÅA‚Ü‚¾Às‘O‚Ì‰Â”\«‚à‚ ‚é‚Ì‚ÅjA
-				// setoption‚ÉŠÖ‚µ‚Ä‚ÍÀs‚É200ms‚à‚©‚©‚é‚±‚Æ‚Í‚È‚¢‚Ì‚ÅA‚±‚Ì‘Îô‚¾‚¯‚ÅÏ‚Ü‚¹‚é
-				// ‚±‚Æ‚É‚·‚éB
+				// ã‚¨ãƒ³ã‚¸ãƒ³è¨­å®šãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã§OKã‚’æŠ¼ã™ã¨ã€setoptionã¨quitãŒç¶šã‘ã¦é€ã‚‰ã‚Œã¦ãã‚‹ã€‚
+				// ãã®æ™‚ã€setoptionã®å†…å®¹ã‚’å®Ÿè¡Œã™ã‚‹å‰ã«exit()ã‚’å‘¼ã°ãªã„ã‚ˆã†ã€quitã‚³ãƒãƒ³ãƒ‰ã‚ˆã‚Š
+				// å‰ã«å—ä¿¡ã—ãŸã‚³ãƒãƒ³ãƒ‰ãŒå…¨ã¦å®Ÿè¡Œã•ã‚Œã¦ã‹ã‚‰çµ‚äº†ã™ã‚‹ã‚ˆã†ã«ã™ã‚‹ã€‚
+				// æœ¬å½“ã¯ã€commandQueueã®ã‚µã‚¤ã‚ºãŒ0ã ã‹ã‚‰ã¨ã„ã£ã¦ã€ãã‚Œä»¥å‰ã®ã‚³ãƒãƒ³ãƒ‰ãŒæœ¬å½“ã«
+				// å®Ÿè¡Œã•ã‚ŒãŸã¨ã„ã†ä¿è¨¼ã¯ãªã„ãŒï¼ˆpopã—ãŸã ã‘ã§ã€ã¾ã å®Ÿè¡Œå‰ã®å¯èƒ½æ€§ã‚‚ã‚ã‚‹ã®ã§ï¼‰ã€
+				// setoptionã«é–¢ã—ã¦ã¯å®Ÿè¡Œã«200msã‚‚ã‹ã‹ã‚‹ã“ã¨ã¯ãªã„ã®ã§ã€ã“ã®å¯¾ç­–ã ã‘ã§æ¸ˆã¾ã›ã‚‹
+				// ã“ã¨ã«ã™ã‚‹ã€‚
 				Sleep(200);
 			}
-			// I—¹‘O‚ÉƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ğ”jŠüB
+			// çµ‚äº†å‰ã«ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç ´æ£„ã€‚
 			DeleteCriticalSection(&cs);
-			// quit‚ğóM‚µ‚½‚çƒGƒ“ƒWƒ“‚ğI—¹‚·‚éB
+			// quitã‚’å—ä¿¡ã—ãŸã‚‰ã‚¨ãƒ³ã‚¸ãƒ³ã‚’çµ‚äº†ã™ã‚‹ã€‚
 			exit(0);
 		}
-		EnterCriticalSection(&cs); // ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“‚É“ü‚éB
+		EnterCriticalSection(&cs); // ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã«å…¥ã‚‹ã€‚
 		if (strncmp(buf, "stop", strlen("stop")) == 0) {
 			isStopReceived = true;
 		}
@@ -96,28 +96,28 @@ void *ReceiveThread(void *)
 			ponderhitReceiveTime = timeGetTime();
 		}
 		if (strncmp(buf, "gameover", strlen("gameover")) == 0) {
-			isStopReceived = true; // æ“Ç‚İ’†‚Égameover‚ª‘—‚ç‚ê‚Ä‚«‚½ê‡A‚·‚®vl‚ğ‘Å‚¿Ø‚éB
+			isStopReceived = true; // å…ˆèª­ã¿ä¸­ã«gameoverãŒé€ã‚‰ã‚Œã¦ããŸå ´åˆã€ã™ãæ€è€ƒã‚’æ‰“ã¡åˆ‡ã‚‹ã€‚
 		}
 		string commandStr = buf;
-		commandQueue.push(commandStr); // ƒRƒ}ƒ“ƒh‚ğƒLƒ…[‚É’Ç‰ÁB
-		LeaveCriticalSection(&cs); // ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“‚ğo‚éB
+		commandQueue.push(commandStr); // ã‚³ãƒãƒ³ãƒ‰ã‚’ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ ã€‚
+		LeaveCriticalSection(&cs); // ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã‚’å‡ºã‚‹ã€‚
 	}
 }
 
-// óM‚µ‚½ƒRƒ}ƒ“ƒh‚ğ•Ô‚·B
+// å—ä¿¡ã—ãŸã‚³ãƒãƒ³ãƒ‰ã‚’è¿”ã™ã€‚
 string WaitCommand()
 {
 	while (commandQueue.empty()) {
 		Sleep(100);
 	}
-	EnterCriticalSection(&cs); // ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“‚É“ü‚éB
-	string commandStr = commandQueue.front(); // ƒLƒ…[‚©‚çƒRƒ}ƒ“ƒh‚ğæ“¾B
-	commandQueue.pop(); // ƒLƒ…[‚©‚çƒRƒ}ƒ“ƒh‚ğíœB
-	LeaveCriticalSection(&cs); // ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“‚ğo‚éB
+	EnterCriticalSection(&cs); // ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã«å…¥ã‚‹ã€‚
+	string commandStr = commandQueue.front(); // ã‚­ãƒ¥ãƒ¼ã‹ã‚‰ã‚³ãƒãƒ³ãƒ‰ã‚’å–å¾—ã€‚
+	commandQueue.pop(); // ã‚­ãƒ¥ãƒ¼ã‹ã‚‰ã‚³ãƒãƒ³ãƒ‰ã‚’å‰Šé™¤ã€‚
+	LeaveCriticalSection(&cs); // ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã‚’å‡ºã‚‹ã€‚
 	return commandStr;
 }
 
-// ƒRƒ}ƒ“ƒhóMƒXƒŒƒbƒh‚ğŠJn‚·‚éB
+// ã‚³ãƒãƒ³ãƒ‰å—ä¿¡ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’é–‹å§‹ã™ã‚‹ã€‚
 bool BeginThread()
 {
 #ifdef _WIN32
@@ -133,16 +133,16 @@ bool BeginThread()
 int main()
 {
 	setvbuf(stdin, NULL, _IONBF, 0);
-	setvbuf(stdout, NULL, _IONBF, 0); // ‚±‚ê‚ª•K—vi•W€o—Í‚Ìƒoƒbƒtƒ@ƒŠƒ“ƒO‚ğ–³Œø‚É‚·‚éj
+	setvbuf(stdout, NULL, _IONBF, 0); // ã“ã‚ŒãŒå¿…è¦ï¼ˆæ¨™æº–å‡ºåŠ›ã®ãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°ã‚’ç„¡åŠ¹ã«ã™ã‚‹ï¼‰
 
-	InitializeCriticalSection(&cs); // ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»B
-	bool isSuccess = BeginThread(); // óMƒXƒŒƒbƒhŠJnB
+	InitializeCriticalSection(&cs); // ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–ã€‚
+	bool isSuccess = BeginThread(); // å—ä¿¡ã‚¹ãƒ¬ãƒƒãƒ‰é–‹å§‹ã€‚
 	if (!isSuccess) {
 		printf("Failed to begin thread\n");
 		return -1;
 	}
 
-	// Lesserkai.iniƒtƒ@ƒCƒ‹‚ª‚ ‚é‚È‚çAƒGƒ“ƒWƒ“İ’è‚ÌƒfƒtƒHƒ‹ƒg’l‚ğæ“¾B
+	// Lesserkai.iniãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹ãªã‚‰ã€ã‚¨ãƒ³ã‚¸ãƒ³è¨­å®šã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’å–å¾—ã€‚
 //ina// 	char iniValueBuf[256];
 //ina// 	::GetPrivateProfileString("CustomSettings", "BookFile", "public.bin", iniValueBuf, 256, iniFilePath);
 //ina// 	string bookFileStr = iniValueBuf;
@@ -151,10 +151,10 @@ int main()
 //ina// 	bool isUseJoseki = useBookStr == "true";
 	bool isUseJoseki = false; //ina//
 
-	srand((unsigned)time(NULL)); // Sikou::Think()‚Å’èÕ‚ğƒ‰ƒ“ƒ_ƒ€‚É‘I‚×‚é‚æ‚¤‚É‚·‚é‚½‚ßB
+	srand((unsigned)time(NULL)); // Sikou::Think()ã§å®šè·¡ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«é¸ã¹ã‚‹ã‚ˆã†ã«ã™ã‚‹ãŸã‚ã€‚
 	Kyokumen::HashInit();
 	
-	// •½è‚Ì‰Šú”z’u‚Å‚·BŒ©‚â‚·‚¢‚Å‚µ‚åH•ÏŠ·‚Í‚»‚Ì•ª•¡G‚Å‚·‚¯‚ÇB
+	// å¹³æ‰‹ã®åˆæœŸé…ç½®ã§ã™ã€‚è¦‹ã‚„ã™ã„ã§ã—ã‚‡ï¼Ÿå¤‰æ›ã¯ãã®åˆ†è¤‡é›‘ã§ã™ã‘ã©ã€‚
 	KomaInf HirateBan[9][9]={
 		{EKY,EKE,EGI,EKI,EOU,EKI,EGI,EKE,EKY},
 		{EMP,EHI,EMP,EMP,EMP,EMP,EMP,EKA,EMP},
@@ -166,14 +166,14 @@ int main()
 		{EMP,SKA,EMP,EMP,EMP,EMP,EMP,SHI,EMP},
 		{SKY,SKE,SGI,SKI,SOU,SKI,SGI,SKE,SKY}
 	};
-	// ‚±‚¿‚ç‚Í–Ê“|‚Å‚àEHI‚Ü‚Å0‚ğ•À‚×‚È‚¢‚Æ‚¢‚¯‚Ü‚¹‚ñB
+	// ã“ã¡ã‚‰ã¯é¢å€’ã§ã‚‚EHIã¾ã§0ã‚’ä¸¦ã¹ãªã„ã¨ã„ã‘ã¾ã›ã‚“ã€‚
 	int HirateMotigoma[EHI+1]={
-	// ‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó•àŒj‹â‹àŠp”ò‰¤‚ÆˆÇŒ\‘S‹à”n—´‹ó•àŒj‹â‹àŠp”ò
+	// ç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºæ­©é¦™æ¡‚éŠ€é‡‘è§’é£›ç‹ã¨æåœ­å…¨é‡‘é¦¬é¾ç©ºæ­©é¦™æ¡‚éŠ€é‡‘è§’é£›
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 	};
-	// •½è‰Šú‹Ç–ÊˆÈŠO‚©‚çŠJn‚·‚é‚Ég‚¤B
+	// å¹³æ‰‹åˆæœŸå±€é¢ä»¥å¤–ã‹ã‚‰é–‹å§‹ã™ã‚‹æ™‚ã«ä½¿ã†ã€‚
 	int customMotigoma[EHI+1]={
-	// ‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó‹ó•àŒj‹â‹àŠp”ò‰¤‚ÆˆÇŒ\‘S‹à”n—´‹ó•àŒj‹â‹àŠp”ò
+	// ç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºç©ºæ­©é¦™æ¡‚éŠ€é‡‘è§’é£›ç‹ã¨æåœ­å…¨é‡‘é¦¬é¾ç©ºæ­©é¦™æ¡‚éŠ€é‡‘è§’é£›
 		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 	};
 	KyokumenKomagumi::InitKanagomaValue();
@@ -181,15 +181,15 @@ int main()
 
 	while (true) {
 		while (true) {
-			// ‘Î‹Ç‘Ò‚¿‚Ìƒ‹[ƒvBsetoptionƒRƒ}ƒ“ƒh‚ª‘—‚ç‚ê‚Ä‚«‚½‚ç‚»‚Ì’l‚ğİ’è‚·‚éB
-			// usinewgameƒRƒ}ƒ“ƒh‚ª‘—‚ç‚ê‚Ä‚«‚½‚ç‚±‚Ìƒ‹[ƒv‚ğ”²‚¯‚Ä‘Î‹Ç‚Ìƒ‹[ƒv‚É“ü‚éB
+			// å¯¾å±€å¾…ã¡ã®ãƒ«ãƒ¼ãƒ—ã€‚setoptionã‚³ãƒãƒ³ãƒ‰ãŒé€ã‚‰ã‚Œã¦ããŸã‚‰ãã®å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
+			// usinewgameã‚³ãƒãƒ³ãƒ‰ãŒé€ã‚‰ã‚Œã¦ããŸã‚‰ã“ã®ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã¦å¯¾å±€ã®ãƒ«ãƒ¼ãƒ—ã«å…¥ã‚‹ã€‚
 
-			string commandStr = WaitCommand(); // óM‚µ‚½ƒRƒ}ƒ“ƒh‚ğæ“¾‚·‚é
+			string commandStr = WaitCommand(); // å—ä¿¡ã—ãŸã‚³ãƒãƒ³ãƒ‰ã‚’å–å¾—ã™ã‚‹
 			const char *buf = commandStr.c_str();
 			int len = strlen(buf);
 			if (strncmp(buf, "usi", len) == 0) {
-				// ƒGƒ“ƒWƒ“‹N“®Aˆê”ÔÅ‰‚ÉŒÄ‚Î‚ê‚éƒRƒ}ƒ“ƒhB‚±‚ê‚É‘Î‚µ‚ÄƒGƒ“ƒWƒ“‚Ìid‚ğ•Ô‚µ‚½‚ ‚ÆA
-				// ƒGƒ“ƒWƒ“‚Åİ’è‰Â”\‚Èƒpƒ‰ƒ[ƒ^‚ğoptionƒRƒ}ƒ“ƒh‚Å•Ô‚µAÅŒã‚Éusiok‚ğ•Ô‚·•K—v‚ª‚ ‚éB
+				// ã‚¨ãƒ³ã‚¸ãƒ³èµ·å‹•æ™‚ã€ä¸€ç•ªæœ€åˆã«å‘¼ã°ã‚Œã‚‹ã‚³ãƒãƒ³ãƒ‰ã€‚ã“ã‚Œã«å¯¾ã—ã¦ã‚¨ãƒ³ã‚¸ãƒ³ã®idã‚’è¿”ã—ãŸã‚ã¨ã€
+				// ã‚¨ãƒ³ã‚¸ãƒ³ã§è¨­å®šå¯èƒ½ãªãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’optionã‚³ãƒãƒ³ãƒ‰ã§è¿”ã—ã€æœ€å¾Œã«usiokã‚’è¿”ã™å¿…è¦ãŒã‚ã‚‹ã€‚
 //ina// 				printf("id name Lesserkai 1.3.3\n");
 				printf("id name inaniwa 1.0.0\n"); //ina//
 //ina// 				printf("id author Program Writer\n");
@@ -198,12 +198,12 @@ int main()
 //ina// 				printf("option name UseBook type check default %s\n", isUseJoseki ? "true" : "false");
 				printf("usiok\n");
 			} else if (strncmp(buf, "isready", len) == 0) {
-				// –{“–‚Íƒƒ‚ƒŠ‚ª‚¿‚á‚ñ‚ÆŠm•Û‚Å‚«‚½‚©‚Ç‚¤‚©’²‚×‚Ä‚©‚çreadyok‚ğ•Ô‚·‚×‚«‚¾‚ª
-				// –Ê“|‚È‚Ì‚Å‰½‚à’²‚×‚¸‚Éreadyok‚ğ•Ô‚µ‚Ä‚¢‚éB
+				// æœ¬å½“ã¯ãƒ¡ãƒ¢ãƒªãŒã¡ã‚ƒã‚“ã¨ç¢ºä¿ã§ããŸã‹ã©ã†ã‹èª¿ã¹ã¦ã‹ã‚‰readyokã‚’è¿”ã™ã¹ãã ãŒ
+				// é¢å€’ãªã®ã§ä½•ã‚‚èª¿ã¹ãšã«readyokã‚’è¿”ã—ã¦ã„ã‚‹ã€‚
 				printf("readyok\n");
 			} else if (strncmp(buf, "setoption", strlen("setoption")) == 0) {
-				// ƒGƒ“ƒWƒ“‚Éİ’è‚·‚éƒpƒ‰ƒ[ƒ^‚ª‘—‚ç‚ê‚Ä‚­‚é‚Ì‚Å‚»‚ê‚ğİ’è‚µA
-				// ƒGƒ“ƒWƒ“ŒÅ—L‚Ìƒpƒ‰ƒ[ƒ^‚Å‚ ‚ê‚Î‰Šúİ’èƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éB
+				// ã‚¨ãƒ³ã‚¸ãƒ³ã«è¨­å®šã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒé€ã‚‰ã‚Œã¦ãã‚‹ã®ã§ãã‚Œã‚’è¨­å®šã—ã€
+				// ã‚¨ãƒ³ã‚¸ãƒ³å›ºæœ‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã§ã‚ã‚Œã°åˆæœŸè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã™ã‚‹ã€‚
 				if (strncmp(buf, "setoption name USI_Ponder value true", len) == 0) {
 					canPonder = true;
 				} else if (strncmp(buf, "setoption name USI_Ponder value false", len) == 0) {
@@ -211,84 +211,84 @@ int main()
 				} else if (strncmp(buf, "setoption name USI_Hash value ", strlen("setoption name USI_Hash value ")) == 0) {
 					string hashStr = buf + strlen("setoption name USI_Hash value ");
 					// int hashSize = atoi(hashStr.c_str());
-					// –{—ˆ‚Å‚ ‚ê‚ÎA‚±‚Ì’l‚ğŒ³‚ÉƒnƒbƒVƒ…ƒTƒCƒY‚ğİ’è‚·‚×‚«‚Å‚ ‚éB
+					// æœ¬æ¥ã§ã‚ã‚Œã°ã€ã“ã®å€¤ã‚’å…ƒã«ãƒãƒƒã‚·ãƒ¥ã‚µã‚¤ã‚ºã‚’è¨­å®šã™ã¹ãã§ã‚ã‚‹ã€‚
 //ina// 				} else if (strncmp(buf, "setoption name BookFile value ", strlen("setoption name BookFile value ")) == 0) {
 //ina// 					bookFileStr = buf + strlen("setoption name BookFile value ");
-//ina// 					// ‰Šúİ’èƒtƒ@ƒCƒ‹‚É•Û‘¶‚µ‚Ä‚¨‚­
+//ina// 					// åˆæœŸè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã—ã¦ãŠã
 //ina// 					::WritePrivateProfileString("CustomSettings", "BookFile", bookFileStr.c_str(), iniFilePath);
 //ina// 				} else if (strncmp(buf, "setoption name UseBook value ", strlen("setoption name UseBook value ")) == 0) {
 //ina// 					useBookStr = buf + strlen("setoption name UseBook value ");
 //ina// 					isUseJoseki = useBookStr == "true";
-//ina// 					// ‰Šúİ’èƒtƒ@ƒCƒ‹‚É•Û‘¶‚µ‚Ä‚¨‚­
+//ina// 					// åˆæœŸè¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã—ã¦ãŠã
 //ina// 					::WritePrivateProfileString("CustomSettings", "UseBook", isUseJoseki ? "true" : "false", iniFilePath);
 				}
 			} else if (strncmp(buf, "usinewgame", len) == 0) {
-				// V‹K‘Î‹ÇŠJn‚ÌƒRƒ}ƒ“ƒhB‚±‚ê‚ğóM‚µ‚½‚ç‚±‚Ìƒ‹[ƒv‚ğ”²‚¯‚éB
+				// æ–°è¦å¯¾å±€é–‹å§‹ã®ã‚³ãƒãƒ³ãƒ‰ã€‚ã“ã‚Œã‚’å—ä¿¡ã—ãŸã‚‰ã“ã®ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹ã€‚
 				break;
 			}
 		}
 
 //ina// 		if (joseki.get() == NULL) {
-//ina// 			// ’èÕƒtƒ@ƒCƒ‹‚ªw’è‚³‚ê‚Ä‚¢‚ÄA‚Ü‚¾‚»‚ê‚ğ“Ç‚ñ‚Å‚¢‚È‚©‚Á‚½‚çA‚»‚Ìƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ŞB
+//ina// 			// å®šè·¡ãƒ•ã‚¡ã‚¤ãƒ«ãŒæŒ‡å®šã•ã‚Œã¦ã„ã¦ã€ã¾ã ãã‚Œã‚’èª­ã‚“ã§ã„ãªã‹ã£ãŸã‚‰ã€ãã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã€‚
 //ina// 			joseki.reset(new Joseki((char *)bookFileStr.c_str()));
 //ina// 		}
 
-		KyokumenKomagumi k; // Œ»İ‚Ì‹Ç–Ê
-		KomaInf customBan[9][9]; // •½è‰Šú‹Ç–ÊˆÈŠO‚Ì‹Ç–Ê‚©‚çŠJn‚·‚é‚Ég‚¤B
+		KyokumenKomagumi k; // ç¾åœ¨ã®å±€é¢
+		KomaInf customBan[9][9]; // å¹³æ‰‹åˆæœŸå±€é¢ä»¥å¤–ã®å±€é¢ã‹ã‚‰é–‹å§‹ã™ã‚‹æ™‚ã«ä½¿ã†ã€‚
 		memset(customBan, 0, sizeof(customBan));
 
-		// ‚±‚ê‚Í‚Ü‚¾ŠÈ’P‚Èvl•”‚È‚Ì‚ÅA‰Šú‰»‚àŠÈ’P‚Å‚·B
+		// ã“ã‚Œã¯ã¾ã ç°¡å˜ãªæ€è€ƒéƒ¨ãªã®ã§ã€åˆæœŸåŒ–ã‚‚ç°¡å˜ã§ã™ã€‚
 		Sikou sikou;
-		sikou.ClearHash(); // ƒnƒbƒVƒ…‚ğ‘S‚ÄƒNƒŠƒA‚·‚éBi•K—v‚©‚Ç‚¤‚©•s–¾‚¾‚¯‚Çj
-		hashCount = 0; // ƒnƒbƒVƒ…‚Ìg—p”‚à0‚É–ß‚µ‚Ä‚¨‚­B
+		sikou.ClearHash(); // ãƒãƒƒã‚·ãƒ¥ã‚’å…¨ã¦ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚ï¼ˆå¿…è¦ã‹ã©ã†ã‹ä¸æ˜ã ã‘ã©ï¼‰
+		hashCount = 0; // ãƒãƒƒã‚·ãƒ¥ã®ä½¿ç”¨æ•°ã‚‚0ã«æˆ»ã—ã¦ãŠãã€‚
 		isStopReceived = false;
 
-		// «Šû‚Ì‹Ç–Ê‚ÅAÅ‘å‚Ìè”‚Í‚T‚V‚Xè‚¾‚»‚¤‚Å‚·B
+		// å°†æ£‹ã®å±€é¢ã§ã€æœ€å¤§ã®æ‰‹æ•°ã¯ï¼•ï¼—ï¼™æ‰‹ã ãã†ã§ã™ã€‚
 		Te teBuf[600];
-		int SorE; // Ÿ‚Ìè”ÔBSELF or ENEMY
-		int teNum; // ’…è‰Â”\‚Èè”
-		Te te(0); // ƒGƒ“ƒWƒ“‚ª•Ô‚·w‚µè
-		Te ponderTe(0); // ƒGƒ“ƒWƒ“‚Ìw‚µè‚É‘Î‚·‚é‘Šè‚Ì—\‘zè
+		int SorE; // æ¬¡ã®æ‰‹ç•ªã€‚SELF or ENEMY
+		int teNum; // ç€æ‰‹å¯èƒ½ãªæ‰‹æ•°
+		Te te(0); // ã‚¨ãƒ³ã‚¸ãƒ³ãŒè¿”ã™æŒ‡ã—æ‰‹
+		Te ponderTe(0); // ã‚¨ãƒ³ã‚¸ãƒ³ã®æŒ‡ã—æ‰‹ã«å¯¾ã™ã‚‹ç›¸æ‰‹ã®äºˆæƒ³æ‰‹
 		InaniwaTimeTesu = INANIWA_MAX_TESU; //ina//
 		InaniwaKomagumiTesu = 9; //ina//
 
 		while (true) {
-			// ‘Î‹Ç‚Ìƒ‹[ƒvB‘Î‹Ç‚ÌƒRƒ}ƒ“ƒh‚Ì‚â‚èæ‚è‚Í‚±‚Ì’†‚Ås‚í‚ê‚éB
-			// gameoverƒRƒ}ƒ“ƒh‚ª‘—‚ç‚ê‚Ä‚«‚½‚ç‚±‚Ìƒ‹[ƒv‚ğ”²‚¯‚Ä‘Î‹Ç‘Ò‚¿‚Ìƒ‹[ƒv‚É–ß‚éB
+			// å¯¾å±€ã®ãƒ«ãƒ¼ãƒ—ã€‚å¯¾å±€æ™‚ã®ã‚³ãƒãƒ³ãƒ‰ã®ã‚„ã‚Šå–ã‚Šã¯ã“ã®ä¸­ã§è¡Œã‚ã‚Œã‚‹ã€‚
+			// gameoverã‚³ãƒãƒ³ãƒ‰ãŒé€ã‚‰ã‚Œã¦ããŸã‚‰ã“ã®ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã¦å¯¾å±€å¾…ã¡ã®ãƒ«ãƒ¼ãƒ—ã«æˆ»ã‚‹ã€‚
 
-			string commandStr = WaitCommand(); // óM‚µ‚½ƒRƒ}ƒ“ƒh‚ğæ“¾‚·‚éB
+			string commandStr = WaitCommand(); // å—ä¿¡ã—ãŸã‚³ãƒãƒ³ãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
 			const char *buf = commandStr.c_str();
 			int len = strlen(buf);
 			if (strncmp(buf, "position", strlen("position")) == 0) {
-				// Œ»İ‹Ç–Ê‚ğw’è‚·‚éƒRƒ}ƒ“ƒhB
+				// ç¾åœ¨å±€é¢ã‚’æŒ‡å®šã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã€‚
 				if (strncmp(buf, "position startpos", strlen("position startpos")) == 0) {
-					// •½è‰Šú‹Ç–Ê‚©‚ç‚ÌŠJn
+					// å¹³æ‰‹åˆæœŸå±€é¢ã‹ã‚‰ã®é–‹å§‹
 					k.InitKyokumen(0, HirateBan, HirateMotigoma);
 					k.Initialize();
 					SorE = SELF;
 					teNum = k.MakeLegalMoves(SorE, teBuf);
 					if (commandStr.find(" moves ") != string::npos) {
-						// ŠJn‹Ç–ÊŒã‚Ìw‚µè‚Ìî•ñ‚ª‚ ‚éê‡A‹Ç–Ê‚ği‚ß‚éB
+						// é–‹å§‹å±€é¢å¾Œã®æŒ‡ã—æ‰‹ã®æƒ…å ±ãŒã‚ã‚‹å ´åˆã€å±€é¢ã‚’é€²ã‚ã‚‹ã€‚
 						SorE = USIUtil::AddAllMoves(buf, len, &k, SorE, teNum, teBuf);
 					}
 				} else {
-					// SFEN‚Åw’è‚³‚ê‚é‹Ç–Ê‚©‚ç‚ÌŠJn
-					USIUtil::ClearMochigoma(customMotigoma); // ‚¿‹î‚ğ‰Šú‰»‚·‚é•K—v‚ª‚ ‚éB
-					USIUtil::MakeCustomKyokumen(buf, customBan, customMotigoma); // ŠJn‹Ç–Ê‰Šú‰»
+					// SFENã§æŒ‡å®šã•ã‚Œã‚‹å±€é¢ã‹ã‚‰ã®é–‹å§‹
+					USIUtil::ClearMochigoma(customMotigoma); // æŒã¡é§’ã‚’åˆæœŸåŒ–ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
+					USIUtil::MakeCustomKyokumen(buf, customBan, customMotigoma); // é–‹å§‹å±€é¢åˆæœŸåŒ–
 					k.InitKyokumen(0, customBan, customMotigoma);
 					k.Initialize();
 
 					SorE = commandStr.find(" w ") != string::npos ? ENEMY : SELF;
-					// commandStr.find(" b ") != string::npos‚Æ‚¢‚¤ğŒ‚ğg‚¤‚ÆAŒãè‚Ì‚¿‹î‚ªŠp‚¾‚¯‚Ì
-					// ê‡‚É" b "‚Æ‚¢‚¤•¶š—ñ‚ªŠÜ‚Ü‚ê‚Ä‚µ‚Ü‚¤‚Ì‚ÅA•K‚¸æè”Ô‚Æ”»’f‚µ‚Ä‚µ‚Ü‚¤–â‘è‚ª‚ ‚Á‚½B
-					// ‚»‚ê‚ğ–h‚®‚½‚ß‚ÉcommandStr.find(" w ") != string::npos‚Æ‚¢‚¤ğŒ‚ğg‚¤‚æ‚¤‚É•ÏXB
+					// commandStr.find(" b ") != string::nposã¨ã„ã†æ¡ä»¶ã‚’ä½¿ã†ã¨ã€å¾Œæ‰‹ã®æŒã¡é§’ãŒè§’ã ã‘ã®
+					// å ´åˆã«" b "ã¨ã„ã†æ–‡å­—åˆ—ãŒå«ã¾ã‚Œã¦ã—ã¾ã†ã®ã§ã€å¿…ãšå…ˆæ‰‹ç•ªã¨åˆ¤æ–­ã—ã¦ã—ã¾ã†å•é¡ŒãŒã‚ã£ãŸã€‚
+					// ãã‚Œã‚’é˜²ããŸã‚ã«commandStr.find(" w ") != string::nposã¨ã„ã†æ¡ä»¶ã‚’ä½¿ã†ã‚ˆã†ã«å¤‰æ›´ã€‚
 
 					teNum = k.MakeLegalMoves(SorE, teBuf);
 					if (commandStr.find(" moves ") != string::npos) {
-						// ŠJn‹Ç–ÊŒã‚Ìw‚µè‚Ìî•ñ‚ª‚ ‚éê‡A‹Ç–Ê‚ği‚ß‚éB
+						// é–‹å§‹å±€é¢å¾Œã®æŒ‡ã—æ‰‹ã®æƒ…å ±ãŒã‚ã‚‹å ´åˆã€å±€é¢ã‚’é€²ã‚ã‚‹ã€‚
 						SorE = USIUtil::AddAllMoves(buf, len, &k, SorE, teNum, teBuf);
 					}
-					isUseJoseki = false; // ‹î—‚¿‚Ì’èÕ‚ª‚È‚¢‚Ì‚Åfalse‚É‚µ‚Ä‚¨‚­B
+					isUseJoseki = false; // é§’è½ã¡ã®å®šè·¡ãŒãªã„ã®ã§falseã«ã—ã¦ãŠãã€‚
 				}
 				continue;
 			} else if (strncmp(buf, "go", strlen("go")) == 0 &&
@@ -299,35 +299,35 @@ int main()
 					 (SorE == ENEMY && (pbuf = strstr(buf, "btime ")) != NULL)  ) {                      //ina//
 					int tm = atoi(pbuf+6)/1000;                                                          //ina//
 					if (tm >= 3600) {                                                                    //ina//
-						printf("info string ‘Šè‚Ìc‚èŠÔ %02d:%02d:%02d\n", tm/3600, tm/60%60, tm%60); //ina//
+						printf("info string ç›¸æ‰‹ã®æ®‹ã‚Šæ™‚é–“ %02d:%02d:%02d\n", tm/3600, tm/60%60, tm%60); //ina//
 					} else {                                                                             //ina//
-						printf("info string ‘Šè‚Ìc‚èŠÔ %02d:%02d\n", tm/60, tm%60);                  //ina//
+						printf("info string ç›¸æ‰‹ã®æ®‹ã‚Šæ™‚é–“ %02d:%02d\n", tm/60, tm%60);                  //ina//
 					}                                                                                    //ina//
 				}                                                                                        //ina//
-				// Œ»İ‹Ç–Ê‚©‚ç‚ÌvlŠJnB
+				// ç¾åœ¨å±€é¢ã‹ã‚‰ã®æ€è€ƒé–‹å§‹ã€‚
 				if (teNum == 0) {
 					printf("bestmove resign\n");
 					continue;
 				}
 				if (k.IsNyugyokuWin(SorE)) {
-					// CSA‚Ì“ü‹Êƒ‹[ƒ‹‚ÅŸ‚¿‚Ì‹Ç–Ê‚È‚çbestmove win‚ğ•Ô‚·B
+					// CSAã®å…¥ç‰ãƒ«ãƒ¼ãƒ«ã§å‹ã¡ã®å±€é¢ãªã‚‰bestmove winã‚’è¿”ã™ã€‚
 					printf("bestmove win\n");
 					continue;
 				}
 				isPonderThink = false;
 				USIUtil::ParseAllTimes(buf, SorE);
 				if (strncmp(buf, "go infinite", strlen("go infinite")) == 0) {
-					thinkDepthMax = 8; // go infinite‚Ìê‡‚¾‚¯8‚É‚·‚éB
+					thinkDepthMax = 8; // go infiniteã®å ´åˆã ã‘8ã«ã™ã‚‹ã€‚
 				}
-				k.SenkeiInit(); // sikou.Think()‚Ì‘O‚É‚±‚ê‚ª•K—vB
+				k.SenkeiInit(); // sikou.Think()ã®å‰ã«ã“ã‚ŒãŒå¿…è¦ã€‚
 				te = sikou.Think(SorE, k, isUseJoseki, &ponderTe);
 
 				if (isStopReceived || isInfinite) {
-					// vl’†‚Éstop‚ª—ˆ‚Ä‚¢‚½ê‡A‚à‚µ‚­‚Ígo infinite‚Åvl‚ğŠJn‚µ‚½ê‡‚ÍA‚±‚±‚Å‚Íè‚ğ•Ô‚³‚¸A
-					// ‚±‚Ì’¼Œã‚Ìif (strncmp(buf, "stop", strlen("stop")) == 0)‚Ì’†‚Å•Ô‚·B
+					// æ€è€ƒä¸­ã«stopãŒæ¥ã¦ã„ãŸå ´åˆã€ã‚‚ã—ãã¯go infiniteã§æ€è€ƒã‚’é–‹å§‹ã—ãŸå ´åˆã¯ã€ã“ã“ã§ã¯æ‰‹ã‚’è¿”ã•ãšã€
+					// ã“ã®ç›´å¾Œã®if (strncmp(buf, "stop", strlen("stop")) == 0)ã®ä¸­ã§è¿”ã™ã€‚
 					continue;
 				} else {
-					// w‚µè‚ğ•Ô‚·B
+					// æŒ‡ã—æ‰‹ã‚’è¿”ã™ã€‚
 					printf("bestmove ");
 					te.Print();
 					if (canPonder && !ponderTe.IsNull()) {
@@ -337,40 +337,40 @@ int main()
 					printf("\n");
 				}
 
-				// ‹Ç–Ê‚ği‚ß‚éB
+				// å±€é¢ã‚’é€²ã‚ã‚‹ã€‚
 				k.Move(SorE,te);
 				SorE = SorE == SELF ? ENEMY : SELF;
 				teNum = k.MakeLegalMoves(SorE,teBuf);
 				continue;
 			} else if (strncmp(buf, "go ponder", strlen("go ponder")) == 0) {
-				// —\‘z‚µ‚½‹Ç–Ê‚©‚ç‚ÌvlŠJnBæ“Ç‚İ‚È‚Ì‚ÅA‚±‚Ì’†‚Åè‚ğ•Ô‚µ‚Ä‚Í‚¢‚¯‚È‚¢B
+				// äºˆæƒ³ã—ãŸå±€é¢ã‹ã‚‰ã®æ€è€ƒé–‹å§‹ã€‚å…ˆèª­ã¿ãªã®ã§ã€ã“ã®ä¸­ã§æ‰‹ã‚’è¿”ã—ã¦ã¯ã„ã‘ãªã„ã€‚
 				if (teNum == 0) {
 					continue;
 				}
 				isPonderThink = true;
 				USIUtil::ParseAllTimes(buf, SorE);
-				k.SenkeiInit(); // sikou.Think()‚Ì‘O‚É‚±‚ê‚ª•K—vB
+				k.SenkeiInit(); // sikou.Think()ã®å‰ã«ã“ã‚ŒãŒå¿…è¦ã€‚
 				te = sikou.Think(SorE, k, isUseJoseki, &ponderTe);
 				continue;
 			} else if (strncmp(buf, "go mate", strlen("go mate")) == 0) {
-				// ‹l«Šû‚ÌvlŠJnB
+				// è©°å°†æ£‹ã®æ€è€ƒé–‹å§‹ã€‚
 				isTsumeThink = true;
 				USIUtil::ParseLimitTimes(buf);
 				thinkStartTime = timeGetTime();
 				try {
-					int val = k.Mate(SorE, 30, te); // [‚³30‚Ü‚Å’TõB
-					if (val == 1) { // ‹l‚ñ‚¾ê‡
+					int val = k.Mate(SorE, 30, te); // æ·±ã•30ã¾ã§æ¢ç´¢ã€‚
+					if (val == 1) { // è©°ã‚“ã å ´åˆ
 						printf("checkmate");
 						int startSorE = SorE;
 						Te tsumeTe;
 						while (teNum > 0) {
 							printf(" ");
 							if (SorE == startSorE) {
-								// ‹l‚ß‚éè‚ğƒnƒbƒVƒ…‚©‚çæ“¾‚·‚éB
+								// è©°ã‚ã‚‹æ‰‹ã‚’ãƒãƒƒã‚·ãƒ¥ã‹ã‚‰å–å¾—ã™ã‚‹ã€‚
 								tsumeTe = k.GetTsumeTe(SorE);
 							} else {
-								// ó‚¯‚éè‚Í‚Ç‚ê‚ªÅ‘P‚©‚í‚©‚ç‚È‚¢‚Ì‚ÅA‰Â”\‚Èè‚Ì‚¤‚¿‚Ì
-								// Å‰‚É¶¬‚µ‚½è‚É‚·‚éB
+								// å—ã‘ã‚‹æ‰‹ã¯ã©ã‚ŒãŒæœ€å–„ã‹ã‚ã‹ã‚‰ãªã„ã®ã§ã€å¯èƒ½ãªæ‰‹ã®ã†ã¡ã®
+								// æœ€åˆã«ç”Ÿæˆã—ãŸæ‰‹ã«ã™ã‚‹ã€‚
 								tsumeTe = teBuf[0];
 							}
 							tsumeTe.Print();
@@ -378,25 +378,25 @@ int main()
 							SorE = SorE == SELF ? ENEMY : SELF;
 							teNum = k.MakeLegalMoves(SorE,teBuf);
 						}
-					} else { // ‹l‚Ü‚È‚©‚Á‚½ê‡
+					} else { // è©°ã¾ãªã‹ã£ãŸå ´åˆ
 						printf("checkmate nomate");
 					}
-				} catch (int) { // ŠÔØ‚ê‚Ìê‡
+				} catch (int) { // æ™‚é–“åˆ‡ã‚Œã®å ´åˆ
 					printf("checkmate timeout");
 				}
 				printf("\n");
 				isTsumeThink = false;
 				continue;
 			} else if (strncmp(buf, "stop", strlen("stop")) == 0) {
-				isStopReceived = false; // false‚É–ß‚·B
+				isStopReceived = false; // falseã«æˆ»ã™ã€‚
 
-				// go‚Ü‚½‚Ígo ponder‚ÅŠù‚É’TõÏ‚İ‚Ìè‚ğ•Ô‚·B
-				// go‚É‘Î‚·‚éstop‚Å‚ ‚ê‚ÎŠù‚É‹Ç–Ê‚ªi‚ß‚ç‚ê‚Ä‚¢‚é‚µA
-				// go ponder‚É‘Î‚·‚éstop‚Å‚ ‚ê‚Î‹Ç–Ê‚ği‚ß‚é•K—v‚Í‚È‚¢iŸ‚Ìposition‚Å
-				// ‰Šú‰»‚³‚ê‚Ä‚µ‚Ü‚¤j‚Ì‚ÅA‹Ç–Ê‚ÉŠÖ‚µ‚Ä‚Í‰½‚à•ÏX‚µ‚È‚­‚Ä‚æ‚¢B
+				// goã¾ãŸã¯go ponderã§æ—¢ã«æ¢ç´¢æ¸ˆã¿ã®æ‰‹ã‚’è¿”ã™ã€‚
+				// goã«å¯¾ã™ã‚‹stopã§ã‚ã‚Œã°æ—¢ã«å±€é¢ãŒé€²ã‚ã‚‰ã‚Œã¦ã„ã‚‹ã—ã€
+				// go ponderã«å¯¾ã™ã‚‹stopã§ã‚ã‚Œã°å±€é¢ã‚’é€²ã‚ã‚‹å¿…è¦ã¯ãªã„ï¼ˆæ¬¡ã®positionã§
+				// åˆæœŸåŒ–ã•ã‚Œã¦ã—ã¾ã†ï¼‰ã®ã§ã€å±€é¢ã«é–¢ã—ã¦ã¯ä½•ã‚‚å¤‰æ›´ã—ãªãã¦ã‚ˆã„ã€‚
 				printf("bestmove ");
 				if (teNum == 0) {
-					// æ“Ç‚İŠJn“_‚Å‹l‚ñ‚Å‚¢‚½‚ç“Š—¹‚·‚éB
+					// å…ˆèª­ã¿é–‹å§‹æ™‚ç‚¹ã§è©°ã‚“ã§ã„ãŸã‚‰æŠ•äº†ã™ã‚‹ã€‚
 					printf("resign\n");
 					continue;
 				}
@@ -408,24 +408,24 @@ int main()
 				printf("\n");
 				continue;
 			} else if (strncmp(buf, "ponderhit", strlen("ponderhit")) == 0) {
-				// ‚±‚±‚É“ü‚é‚Ì‚Íbestmove ... ponder ...‚Å•Ô‚µ‚½—\‘zè‚ª“–‚½‚Á‚½B
-				// —\‘zè‚Ü‚Å‚Ì‹Ç–Ê‚Íi‚ñ‚Å‚¢‚é‚ªA©•ª‚ªw‚µ‚½è‚ÉŠÖ‚µ‚Ä‚Í‚±‚±‚Å‹Ç–Ê‚ği‚ß‚é•K—v‚ª‚ ‚éB
+				// ã“ã“ã«å…¥ã‚‹ã®ã¯bestmove ... ponder ...ã§è¿”ã—ãŸäºˆæƒ³æ‰‹ãŒå½“ãŸã£ãŸæ™‚ã€‚
+				// äºˆæƒ³æ‰‹ã¾ã§ã®å±€é¢ã¯é€²ã‚“ã§ã„ã‚‹ãŒã€è‡ªåˆ†ãŒæŒ‡ã—ãŸæ‰‹ã«é–¢ã—ã¦ã¯ã“ã“ã§å±€é¢ã‚’é€²ã‚ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
 
-				// Ÿ‚Ìponderhit‚ğóM‚·‚é‘O‚É0‚É–ß‚µ‚Ä‚â‚éBbestmove‚ğ•Ô‚·‚ÆA‚»‚Ì’¼Œã‚Éponderhit‚ª
-				// ‘—‚ç‚ê‚Ä‚­‚é‚±‚Æ‚ª‚ ‚èA‚»‚ê‚É‚æ‚Á‚Ä‚Ü‚½ponderhitReceiveTime‚ğİ’è‚·‚é‚Ì‚ÅA
-				// ‚»‚ê‚ğ0‚É‚µ‚Ä‚µ‚Ü‚í‚È‚¢‚æ‚¤Abestmove‚ğ•Ô‚·‘O‚É0‚É–ß‚³‚È‚¯‚ê‚Î‚¢‚¯‚È‚¢B
+				// æ¬¡ã®ponderhitã‚’å—ä¿¡ã™ã‚‹å‰ã«0ã«æˆ»ã—ã¦ã‚„ã‚‹ã€‚bestmoveã‚’è¿”ã™ã¨ã€ãã®ç›´å¾Œã«ponderhitãŒ
+				// é€ã‚‰ã‚Œã¦ãã‚‹ã“ã¨ãŒã‚ã‚Šã€ãã‚Œã«ã‚ˆã£ã¦ã¾ãŸponderhitReceiveTimeã‚’è¨­å®šã™ã‚‹ã®ã§ã€
+				// ãã‚Œã‚’0ã«ã—ã¦ã—ã¾ã‚ãªã„ã‚ˆã†ã€bestmoveã‚’è¿”ã™å‰ã«0ã«æˆ»ã•ãªã‘ã‚Œã°ã„ã‘ãªã„ã€‚
 				ponderhitReceiveTime = 0;
 
 				if (isStopReceived) {
-					// lŠÔ‘ÎƒGƒ“ƒWƒ“‚ÅAƒGƒ“ƒWƒ“‚ª—\‘z‚µ‚½è‚ğlŠÔ‚ªw‚·‚Æponderhit‚ª‘—‚ç‚êA
-					// ‚»‚ÌŒãA‚Ü‚¾ƒGƒ“ƒWƒ“‚ªŒp‘±‚µ‚Ävl‚µ‚Ä‚¢‚é‚Éu‚·‚®w‚³‚¹‚évƒ{ƒ^ƒ“‚ğ‰Ÿ‚·‚ÆA
-					// stop‚ª‘—‚ç‚ê‚Ä‚­‚éB‚±‚Ì‚æ‚¤‚ÉAponderhit‚Æstop‚ª‘±‚¯‚Ä‘—‚ç‚ê‚Ä‚«‚½ê‡A
-					// ‚±‚±‚Å‚Í‰½‚à•Ô‚³‚¸A‚»‚ÌŸ‚Ìstop‚É“ü‚Á‚½‚Æ‚±‚ë‚Åè‚ğ•Ô‚·B
+					// äººé–“å¯¾ã‚¨ãƒ³ã‚¸ãƒ³ã§ã€ã‚¨ãƒ³ã‚¸ãƒ³ãŒäºˆæƒ³ã—ãŸæ‰‹ã‚’äººé–“ãŒæŒ‡ã™ã¨ponderhitãŒé€ã‚‰ã‚Œã€
+					// ãã®å¾Œã€ã¾ã ã‚¨ãƒ³ã‚¸ãƒ³ãŒç¶™ç¶šã—ã¦æ€è€ƒã—ã¦ã„ã‚‹æ™‚ã«ã€Œã™ãæŒ‡ã•ã›ã‚‹ã€ãƒœã‚¿ãƒ³ã‚’æŠ¼ã™ã¨ã€
+					// stopãŒé€ã‚‰ã‚Œã¦ãã‚‹ã€‚ã“ã®ã‚ˆã†ã«ã€ponderhitã¨stopãŒç¶šã‘ã¦é€ã‚‰ã‚Œã¦ããŸå ´åˆã€
+					// ã“ã“ã§ã¯ä½•ã‚‚è¿”ã•ãšã€ãã®æ¬¡ã®stopã«å…¥ã£ãŸã¨ã“ã‚ã§æ‰‹ã‚’è¿”ã™ã€‚
 					continue;
 				}
 				if (teNum == 0) {
-					// teNum==0‚Æ‚¢‚¤‚±‚Æ‚ÍAgo ponder‚Ì‘Šè‚Ì—\‘zè‚É‚æ‚Á‚Ä‹l‚ñ‚Å‚µ‚Ü‚Á‚½‚Æ‚¢‚¤‚±‚Æ‚È‚Ì‚ÅA
-					// ponderhit‚É‚æ‚Á‚Ä‚»‚Ì’Ê‚è‚Ìè‚ª—ˆ‚½‚ç“Š—¹‚·‚éB
+					// teNum==0ã¨ã„ã†ã“ã¨ã¯ã€go ponderã®ç›¸æ‰‹ã®äºˆæƒ³æ‰‹ã«ã‚ˆã£ã¦è©°ã‚“ã§ã—ã¾ã£ãŸã¨ã„ã†ã“ã¨ãªã®ã§ã€
+					// ponderhitã«ã‚ˆã£ã¦ãã®é€šã‚Šã®æ‰‹ãŒæ¥ãŸã‚‰æŠ•äº†ã™ã‚‹ã€‚
 					printf("bestmove resign\n");
 					continue;
 				}
@@ -433,7 +433,7 @@ int main()
 				SorE = SorE == SELF ? ENEMY : SELF;
 				teNum = k.MakeLegalMoves(SorE,teBuf);
 
-				// Šù‚É’TõÏ‚İ‚Ìè‚ğ•Ô‚·B
+				// æ—¢ã«æ¢ç´¢æ¸ˆã¿ã®æ‰‹ã‚’è¿”ã™ã€‚
 				printf("bestmove ");
 				te.Print();
 				if (canPonder && !ponderTe.IsNull()) {
@@ -443,11 +443,11 @@ int main()
 				printf("\n");
 				continue;
 			} else if (strncmp(buf, "gameover", strlen("gameover")) == 0) {
-				// gameover‚Æ‚¢‚¤ƒRƒ}ƒ“ƒh‚ÍUSI‚ÌŒ´ˆÄ‚É‚Í‚È‚¢‚ªA‘Î‹ÇI—¹‚ğƒGƒ“ƒWƒ“‚É
-				// ’m‚ç‚¹‚é‚½‚ß‚É“Æ©‚É’Ç‰Á‚µ‚½B‚±‚ê‚ğóM‚µ‚½‚ç‚±‚Ìƒ‹[ƒv‚ğ”²‚¯‚Ä
-				// ‘Î‹Ç‘Ò‚¿‚Ìƒ‹[ƒv‚É–ß‚éB
-				// gameover [ win | lose | draw ]‚Æ‚¢‚¤‚æ‚¤‚ÉAgameover‚Ì‚ ‚Æ‚ÉŒ‹‰Ê’Ê’m‚Ì
-				// ƒpƒ‰ƒ[ƒ^‚ª‚ ‚é‚Ì‚ÅA©“®ŠwK‚·‚é‚Ì‚Å‚ ‚ê‚Î‚»‚ê‚ğg‚¦‚éB
+				// gameoverã¨ã„ã†ã‚³ãƒãƒ³ãƒ‰ã¯USIã®åŸæ¡ˆã«ã¯ãªã„ãŒã€å¯¾å±€çµ‚äº†ã‚’ã‚¨ãƒ³ã‚¸ãƒ³ã«
+				// çŸ¥ã‚‰ã›ã‚‹ãŸã‚ã«ç‹¬è‡ªã«è¿½åŠ ã—ãŸã€‚ã“ã‚Œã‚’å—ä¿¡ã—ãŸã‚‰ã“ã®ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã¦
+				// å¯¾å±€å¾…ã¡ã®ãƒ«ãƒ¼ãƒ—ã«æˆ»ã‚‹ã€‚
+				// gameover [ win | lose | draw ]ã¨ã„ã†ã‚ˆã†ã«ã€gameoverã®ã‚ã¨ã«çµæœé€šçŸ¥ã®
+				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒã‚ã‚‹ã®ã§ã€è‡ªå‹•å­¦ç¿’ã™ã‚‹ã®ã§ã‚ã‚Œã°ãã‚Œã‚’ä½¿ãˆã‚‹ã€‚
 				break;
 			}
 		}
