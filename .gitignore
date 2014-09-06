@@ -1,0 +1,4 @@
+*.opensdf
+*.sdf
+Backup*/
+UpgradeLog*.htm
