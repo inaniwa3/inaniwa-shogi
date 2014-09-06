@@ -195,7 +195,7 @@ int main()
 				// エンジン起動時、一番最初に呼ばれるコマンド。これに対してエンジンのidを返したあと、
 				// エンジンで設定可能なパラメータをoptionコマンドで返し、最後にusiokを返す必要がある。
 //ina// 				printf("id name Lesserkai 1.3.3\n");
-				printf("id name inaniwa 1.0.0\n"); //ina//
+				printf("id name inaniwa 1.1.0\n"); //ina//
 //ina// 				printf("id author Program Writer\n");
 				printf("id author inaniwa3\n"); //ina//
 //ina// 				printf("option name BookFile type string default %s\n", bookFileStr.c_str());
