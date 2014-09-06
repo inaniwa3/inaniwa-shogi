@@ -1,55 +1,45 @@
-###
-### Files
-###
+### Executable name
 
 EXE = Inaniwa
 
-OBJS = Lesserkai.o Globals.o Joseki.o KomaMoves.o Kyokumen.o Sikou.o Te.o USIUtil.o WinAPI.o Inaniwa.o
+### Object files
 
-###
-### Rules
-###
+OBJS = Lesserkai.o Globals.o Joseki.o KomaMoves.o \
+	Kyokumen.o Sikou.o Te.o USIUtil.o WinAPI.o \
+	Inaniwa.o
 
-all: $(EXE) .depend
-
-clean: 
-	$(RM) *.o .depend Inaniwa
-
-###
-### Compiler:
-###
+### Compiler
 
 CXX = g++
 
-###
-### Dependencies
-###
+### General compiler settings
 
-$(EXE): $(OBJS)
-	$(CXX) $(LDFLAGS) -o $@ $(OBJS)
+CXXFLAGS = -g -Wall
 
-.depend:
-	$(CXX) -MM $(OBJS:.o=.cpp) > $@
+### General linker settings
 
-include .depend
+LDFLAGS = -lpthread
 
-###
-### Compiler and linker switches
-###
-
-# Enable/disable debugging:
+### Debugging
 
 CXXFLAGS += -DNDEBUG
 
-# Compile with full warnings, and symbol names
-
-CXXFLAGS += -Wall -g
-
-# General optimization flags.  Note that -O2 might be faster than -O3 on some
-# systems; this requires testing.
+### Optimization
 
 CXXFLAGS += -O3
 
-# General linker flags
+### Targets
 
-LDFLAGS += -lpthread
+all: $(EXE) .depend
+
+clean:
+	$(RM) $(EXE) *.o .depend
+
+$(EXE): $(OBJS)
+	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
+
+.depend:
+	-@$(CXX) -MM $(OBJS:.o=.cpp) > $@
+
+-include .depend
+

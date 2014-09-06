@@ -4,3 +4,5 @@ Backup*/
 UpgradeLog*.htm
 [Rr]elease/
 *.suo
+*.o
+.depend
